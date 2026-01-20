@@ -1,6 +1,6 @@
 # Setup Guide
 
-Complete setup and configuration guide for the ANZ Demo Website.
+Complete setup and configuration guide for the MyFoodBag Demo Website.
 
 ## Table of Contents
 - [Initial Setup](#initial-setup)
@@ -20,8 +20,8 @@ Complete setup and configuration guide for the ANZ Demo Website.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/bencarmichael-iterable/ANZ-Demo-Website.git
-   cd ANZ-Demo-Website
+   git clone https://github.com/bencarmichael-iterable/mfb-demo-website.git
+   cd mfb-demo-website
    ```
 
 2. **Install dependencies**

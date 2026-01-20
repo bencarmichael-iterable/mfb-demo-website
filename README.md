@@ -1,4 +1,4 @@
-# Client Demo Website
+# MyFoodBag Demo Website
 
 A landing page for demonstrations showcasing Iterable marketing automation capabilities.
 

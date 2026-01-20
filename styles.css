@@ -1,12 +1,12 @@
 /* ============================================
-   CSS VARIABLES - Easy to customize for different prospects
+   CSS VARIABLES - My Food Bag Branding
    ============================================ */
 :root {
-    /* Iterable Brand Colors */
-    --color-primary: #4A90E2;
-    --color-primary-dark: #357ABD;
-    --color-primary-light: #6BA3E8;
-    --color-secondary: #7B68EE;
+    /* My Food Bag Brand Colors */
+    --color-primary: #00A859;
+    --color-primary-dark: #008A47;
+    --color-primary-light: #00C86A;
+    --color-secondary: #FF6B35;
     --color-accent: #00D4AA;
     
     /* Neutral Colors */
@@ -67,16 +67,136 @@ body {
 }
 
 /* ============================================
+   BRAND SELECTION BAR
+   ============================================ */
+.brand-selection-bar {
+    background-color: white;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 2px solid #09463A;
+    margin-bottom: 0;
+}
+
+.brand-selection-content {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.brand-option {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    text-decoration: none;
+    color: var(--color-text);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 8px;
+    transition: var(--transition);
+    background-color: transparent;
+}
+
+.brand-option:hover:not(.active) {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.brand-option.active {
+    background-color: #0A463A;
+    color: white;
+    font-weight: 600;
+    padding: var(--spacing-xs) var(--spacing-md);
+}
+
+.brand-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    overflow: hidden;
+    background-color: white;
+}
+
+.brand-option.active .brand-icon {
+    background-color: var(--color-primary);
+}
+
+.brand-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 6px;
+}
+
+.brand-icon-shop img {
+    padding: 4px;
+}
+
+.brand-icon-mfb {
+    background-color: #78A140;
+}
+
+.brand-option.active .brand-icon-mfb {
+    background-color: #78A140;
+}
+
+.brand-icon-fresh {
+    background-color: white;
+}
+
+.brand-icon-bargain {
+    background-color: white;
+}
+
+.brand-icon-shop {
+    background-color: white;
+    position: relative;
+    overflow: visible;
+}
+
+.brand-icon-shop img {
+    position: relative;
+    z-index: 1;
+    width: auto;
+    height: 32px;
+    max-width: 32px;
+    padding: 2px;
+}
+
+.brand-option-shop {
+    gap: 4px;
+}
+
+.new-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background-color: #FF6B9D;
+    color: white;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 2px 4px;
+    border-radius: 4px;
+    z-index: 2;
+    white-space: nowrap;
+}
+
+/* ============================================
    HEADER
    ============================================ */
 .header {
-    background-color: var(--color-bg);
-    border-bottom: 1px solid var(--color-border);
+    background-color: #0A463A;
     padding: var(--spacing-sm) 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
+    margin-top: 0;
 }
 
 .header-content {
@@ -91,8 +211,9 @@ body {
 }
 
 .logo-img {
-    height: 40px;
+    height: 50px;
     width: auto;
+    max-width: 200px;
 }
 
 .nav {
@@ -102,14 +223,22 @@ body {
 }
 
 .nav-link {
-    color: var(--color-text);
+    color: white;
     text-decoration: none;
     font-weight: 500;
     transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .nav-link:hover {
-    color: var(--color-primary);
+    color: #00A859;
+}
+
+.chevron {
+    font-size: 10px;
+    opacity: 0.8;
 }
 
 /* ============================================
@@ -224,6 +353,18 @@ body {
     background-color: var(--color-primary-dark);
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
+}
+
+.btn-login {
+    background-color: transparent;
+    color: #00A859;
+    border: 1px solid #00A859;
+    padding: 0.5rem 1rem;
+}
+
+.btn-login:hover {
+    background-color: #00A859;
+    color: white;
 }
 
 .btn-secondary {
@@ -362,7 +503,7 @@ body {
 
 .steps {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--spacing-lg);
     margin-top: var(--spacing-lg);
 }
@@ -372,18 +513,23 @@ body {
     padding: var(--spacing-md);
 }
 
-.step-number {
-    width: 60px;
-    height: 60px;
+.step-icon {
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
-    background-color: var(--color-primary);
+    background-color: #09463A;
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--font-size-2xl);
-    font-weight: 700;
     margin: 0 auto var(--spacing-sm);
+    padding: 25px;
+}
+
+.step-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .step-title {
@@ -1189,4 +1335,640 @@ body {
     .hero-cta .btn {
         width: 100%;
     }
+}
+
+/* ============================================
+   MY FOOD BAG SPECIFIC STYLES
+   ============================================ */
+
+/* Recipe Preference and Plan Selection (Side by Side) */
+.recipe-plan-section {
+    padding: var(--spacing-xl) 0;
+    background-color: var(--color-bg);
+}
+
+.recipe-plan-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-lg);
+}
+
+.recipe-preference-column,
+.plan-selection-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.column-title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-lg);
+}
+
+.recipe-preference-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.recipe-preference-card {
+    background-color: var(--color-bg);
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    padding: var(--spacing-sm);
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.recipe-preference-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: #77A223;
+}
+
+.recipe-preference-card.active {
+    border-color: #77A223;
+    background-color: rgba(119, 162, 35, 0.05);
+}
+
+.recipe-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #77A223;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: var(--spacing-xs);
+    padding: 8px;
+}
+
+.recipe-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.recipe-icon-black {
+    background-color: #000000;
+}
+
+.recipe-preference-card h4 {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+}
+
+.recipe-preference-card p {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-light);
+    line-height: 1.3;
+    margin: 0;
+}
+
+.recipe-note {
+    text-align: center;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    font-style: italic;
+    margin-top: var(--spacing-md);
+}
+
+/* Plan Selection Section */
+.plan-selection-section {
+    padding: var(--spacing-xl) 0;
+    background-color: var(--color-bg);
+}
+
+.plan-selection-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.plan-option-group {
+    text-align: center;
+}
+
+.plan-label {
+    display: block;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-lg);
+}
+
+.plan-options {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.plan-option {
+    min-width: 60px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--color-border);
+    border-radius: 6px;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.plan-option:hover {
+    border-color: #77A223;
+    background-color: rgba(119, 162, 35, 0.05);
+}
+
+.plan-option.active {
+    border-color: #77A223;
+    background-color: #77A223;
+    color: white;
+}
+
+.plan-option:hover:not(.active) {
+    border-color: #77A223;
+    background-color: rgba(119, 162, 35, 0.05);
+}
+
+.weekly-price-summary {
+    padding: var(--spacing-md);
+    background-color: var(--color-bg-light);
+    border-radius: 8px;
+    margin-bottom: var(--spacing-md);
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.price-row:last-child {
+    margin-bottom: 0;
+}
+
+.price-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    font-weight: 500;
+}
+
+.price-values {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-xs);
+}
+
+.price-current {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: #4A90E2;
+}
+
+.price-original {
+    font-size: var(--font-size-base);
+    color: var(--color-text-light);
+    text-decoration: line-through;
+}
+
+.plan-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+}
+
+/* Routine Section */
+.routine-section {
+    padding: var(--spacing-xl) 0;
+    background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-bg) 100%);
+}
+
+.routine-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.routine-card {
+    background-color: var(--color-bg);
+    padding: var(--spacing-lg);
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+}
+
+.routine-image {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: var(--spacing-md);
+}
+
+.routine-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.routine-card h3 {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.routine-card p {
+    color: var(--color-text-light);
+    line-height: 1.6;
+}
+
+.routine-cta {
+    text-align: center;
+}
+
+.btn-build-menu {
+    background-color: #77A223;
+    color: white;
+}
+
+.btn-build-menu:hover {
+    background-color: #5d7f1a;
+}
+
+/* Happy Foodies Section */
+.happy-foodies-section {
+    padding: var(--spacing-xl) 0;
+    background-color: var(--color-bg);
+}
+
+.testimonial-rating {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.rating-text {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.rating-stars {
+    color: #FFD700;
+    font-size: var(--font-size-lg);
+}
+
+.rating-count {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+}
+
+.testimonials-carousel {
+    position: relative;
+    margin-bottom: var(--spacing-lg);
+    overflow: hidden;
+}
+
+.testimonials-track {
+    display: flex;
+    gap: var(--spacing-md);
+    transition: transform 0.3s ease;
+    padding: 0 var(--spacing-xl);
+}
+
+.testimonial-card {
+    background-color: white;
+    padding: var(--spacing-md);
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    min-width: 300px;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+}
+
+.testimonial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xs);
+}
+
+.testimonial-name {
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: var(--font-size-base);
+}
+
+.testimonial-stars {
+    color: #FFD700;
+    font-size: var(--font-size-sm);
+}
+
+.testimonial-verified {
+    font-size: var(--font-size-xs);
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.testimonial-text {
+    color: var(--color-text);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+}
+
+.testimonial-details {
+    display: flex;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-light);
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.carousel-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.carousel-prev {
+    left: 0;
+}
+
+.carousel-next {
+    right: 0;
+}
+
+.happy-foodies-cta {
+    text-align: center;
+}
+
+/* Updated Footer Styles */
+.footer {
+    background-color: #2C3E50;
+    color: white;
+    padding: var(--spacing-xl) 0 var(--spacing-md);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-heading {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+    color: white;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: var(--spacing-xs);
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition);
+    font-size: var(--font-size-sm);
+}
+
+.footer-links a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.app-downloads {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.app-download-btn {
+    display: block;
+    text-decoration: none;
+    transition: var(--transition);
+    margin-bottom: var(--spacing-sm);
+}
+
+.app-download-btn:last-child {
+    margin-bottom: 0;
+}
+
+.app-download-btn img {
+    height: 40px;
+    width: auto;
+    display: block;
+}
+
+.app-download-btn:hover {
+    opacity: 0.8;
+}
+
+.footer-social {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+}
+
+.social-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.8);
+    transition: var(--transition);
+    border-radius: 4px;
+}
+
+.social-icon:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.social-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: var(--spacing-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.footer-text {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: var(--font-size-sm);
+}
+
+.footer-text a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+}
+
+.footer-text a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+/* Responsive adjustments for My Food Bag sections */
+@media (max-width: 768px) {
+    .recipe-plan-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .recipe-preference-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .plan-selection-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .testimonials-track {
+        padding: 0 var(--spacing-md);
+    }
+    
+    .testimonial-card {
+        min-width: 280px;
+    }
+    
+    .routine-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .plan-actions {
+        flex-direction: column;
+    }
+    
+    .plan-actions .btn {
+        width: 100%;
+    }
+    
+    .steps {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .step-icon {
+        width: 140px;
+        height: 140px;
+    }
+}
+
+@media (max-width: 480px) {
+    .steps {
+        grid-template-columns: 1fr;
+    }
+    
+    .step-icon {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* Button Color Overrides */
+.btn-find-out-more {
+    background-color: #77A223;
+    color: white;
+}
+
+.btn-find-out-more:hover {
+    background-color: #5d7f1a;
+}
+
+.btn-choose-plan {
+    background-color: #77A223;
+    color: white;
+}
+
+.btn-choose-plan:hover {
+    background-color: #5d7f1a;
+}
+
+.btn-get-started {
+    background-color: #01423A;
+    color: white;
+}
+
+.btn-get-started:hover {
+    background-color: #012e28;
 }

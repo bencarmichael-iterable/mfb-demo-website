@@ -471,17 +471,20 @@ if (signupForm) {
         e.preventDefault();
         
         // Collect form data
-        const interestsCheckboxes = document.querySelectorAll('input[name="interests"]:checked');
+        const preferencesCheckboxes = document.querySelectorAll('input[name="preferences"]:checked');
         const formData = {
             firstName: document.getElementById('firstName').value,
             lastName: document.getElementById('lastName').value,
             email: document.getElementById('signupEmail').value,
             phone: document.getElementById('phone').value,
-            company: document.getElementById('company').value,
-            interests: Array.from(interestsCheckboxes).map(checkbox => checkbox.value),
+            deliveryAddress: document.getElementById('deliveryAddress')?.value || '',
+            preferences: Array.from(preferencesCheckboxes).map(checkbox => checkbox.value),
             consentEmail: document.getElementById('consentEmail').checked,
             consentSMS: document.getElementById('consentSMS').checked,
-            termsConsent: document.getElementById('termsConsent').checked
+            termsConsent: document.getElementById('termsConsent').checked,
+            // Include plan selection if available
+            numberOfPeople: selectedPeople || undefined,
+            mealsPerWeek: selectedMeals || undefined
         };
         
         if (!formData.email) {
@@ -500,19 +503,25 @@ if (signupForm) {
             // Store email in localStorage for persistence
             localStorage.setItem('iterable_user_email', formData.email);
             
-            // Prepare updateUser payload according to users/update structure
+            // Prepare updateUser payload for My Food Bag
             const userDataFields = {
                 firstName: formData.firstName,
                 lastName: formData.lastName,
                 phoneNumber: formData.phone || undefined,
-                selfAssessmentInterests: formData.interests.length > 0 ? formData.interests : undefined
+                recipePreferences: formData.preferences.length > 0 ? formData.preferences : undefined
             };
             
-            // Add company as nested object if provided
-            if (formData.company) {
-                userDataFields.company = {
-                    name: formData.company
-                };
+            // Add delivery address if provided
+            if (formData.deliveryAddress) {
+                userDataFields.deliveryAddress = formData.deliveryAddress;
+            }
+            
+            // Add plan selection if available
+            if (formData.numberOfPeople) {
+                userDataFields.numberOfPeople = formData.numberOfPeople;
+            }
+            if (formData.mealsPerWeek) {
+                userDataFields.mealsPerWeek = formData.mealsPerWeek;
             }
             
             // Remove undefined fields
@@ -560,24 +569,30 @@ if (signupForm) {
             }
             console.log('✅ Sign Up: Subscription preferences updated');
             
-            // Track Sign Up event
+            // Track Sign Up event for My Food Bag
             // Determine device type (simplified - could be enhanced)
             const device = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'mobile' : 'desktop';
             
-            console.log('📊 Sign Up: Tracking Sign Up event...', {
+            console.log('📊 Sign Up: Tracking My Food Bag Sign Up event...', {
                 channel: 'website',
                 device: device,
                 firstName: formData.firstName,
-                lastName: formData.lastName
+                lastName: formData.lastName,
+                preferences: formData.preferences,
+                numberOfPeople: formData.numberOfPeople,
+                mealsPerWeek: formData.mealsPerWeek
             });
-            await trackEvent('Sign Up', {
+            await trackEvent('My Food Bag Sign Up', {
                 email: formData.email,
                 dataFields: {
                     channel: 'website',
                     device: device,
                     firstName: formData.firstName,
                     lastName: formData.lastName,
-                    signupChannel: 'website'
+                    signupChannel: 'website',
+                    recipePreferences: formData.preferences,
+                    numberOfPeople: formData.numberOfPeople,
+                    mealsPerWeek: formData.mealsPerWeek
                 },
                 createNewFields: true
             });
@@ -609,17 +624,200 @@ if (signupForm) {
     });
 }
 
-// CTA button handlers (placeholder)
-const ctaButtons = document.querySelectorAll('#ctaPrimary, #ctaBottom');
+// My Food Bag specific interactions
+
+// Recipe Preference Selection
+const recipePreferenceCards = document.querySelectorAll('.recipe-preference-card');
+recipePreferenceCards.forEach(card => {
+    card.addEventListener('click', () => {
+        // Remove active class from all cards
+        recipePreferenceCards.forEach(c => c.classList.remove('active'));
+        // Add active class to clicked card
+        card.classList.add('active');
+        
+        const preference = card.dataset.preference;
+        console.log('Recipe preference selected:', preference);
+        
+        // Track event if user is signed in
+        const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
+        if (userEmail && isIterableInitialized()) {
+            trackEvent('Recipe Preference Selected', {
+                email: userEmail,
+                dataFields: {
+                    preference: preference,
+                    preferenceName: card.querySelector('h4').textContent
+                },
+                createNewFields: true
+            });
+        }
+    });
+});
+
+// Plan Selection - Number of People
+const peopleOptions = document.querySelectorAll('.plan-option[data-people]');
+let selectedPeople = 1;
+peopleOptions.forEach(option => {
+    option.addEventListener('click', () => {
+        peopleOptions.forEach(o => o.classList.remove('active'));
+        option.classList.add('active');
+        selectedPeople = parseInt(option.dataset.people);
+        updateWeeklyPrice();
+        
+        // Track event if user is signed in
+        const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
+        if (userEmail && isIterableInitialized()) {
+            trackEvent('Plan People Selected', {
+                email: userEmail,
+                dataFields: {
+                    numberOfPeople: selectedPeople
+                },
+                createNewFields: true
+            });
+        }
+    });
+});
+
+// Plan Selection - Meals per Week
+const mealsOptions = document.querySelectorAll('.plan-option[data-meals]');
+let selectedMeals = 3;
+mealsOptions.forEach(option => {
+    option.addEventListener('click', () => {
+        mealsOptions.forEach(o => o.classList.remove('active'));
+        option.classList.add('active');
+        selectedMeals = parseInt(option.dataset.meals);
+        updateWeeklyPrice();
+        
+        // Track event if user is signed in
+        const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
+        if (userEmail && isIterableInitialized()) {
+            trackEvent('Plan Meals Selected', {
+                email: userEmail,
+                dataFields: {
+                    mealsPerWeek: selectedMeals
+                },
+                createNewFields: true
+            });
+        }
+    });
+});
+
+// Price calculation (simplified - adjust based on actual pricing)
+function updateWeeklyPrice() {
+    const basePricePerMeal = 5.75; // Current price per plate
+    const originalPricePerMeal = 11.50; // Original price per plate
+    const totalMeals = selectedPeople * selectedMeals;
+    const currentPrice = totalMeals * basePricePerMeal;
+    const originalPrice = totalMeals * originalPricePerMeal;
+    
+    const weeklyPriceElement = document.getElementById('weeklyPrice');
+    const weeklyOriginalElement = document.getElementById('weeklyOriginal');
+    const platePriceElement = document.getElementById('platePrice');
+    const plateOriginalElement = document.getElementById('plateOriginal');
+    
+    if (weeklyPriceElement) {
+        weeklyPriceElement.textContent = `$${currentPrice.toFixed(2)}`;
+    }
+    if (weeklyOriginalElement) {
+        weeklyOriginalElement.textContent = `$${originalPrice.toFixed(2)}`;
+    }
+    if (platePriceElement) {
+        platePriceElement.textContent = `$${basePricePerMeal.toFixed(2)}`;
+    }
+    if (plateOriginalElement) {
+        plateOriginalElement.textContent = `$${originalPricePerMeal.toFixed(2)}`;
+    }
+}
+
+// Initialize price on load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        updateWeeklyPrice();
+    });
+} else {
+    updateWeeklyPrice();
+}
+
+// Plan Actions
+const continuePlanBtn = document.getElementById('continuePlanBtn');
+if (continuePlanBtn) {
+    continuePlanBtn.addEventListener('click', () => {
+        // Track event if user is signed in
+        const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
+        if (userEmail && isIterableInitialized()) {
+            trackEvent('Plan Continue Clicked', {
+                email: userEmail,
+                dataFields: {
+                    numberOfPeople: selectedPeople,
+                    mealsPerWeek: selectedMeals,
+                    estimatedPrice: selectedPeople * selectedMeals * 5.75
+                },
+                createNewFields: true
+            });
+        }
+        // Note: Sign up form removed - this button can trigger a separate signup flow
+        console.log('Get Started clicked - would trigger signup flow');
+    });
+}
+
+const cancelPlanBtn = document.getElementById('cancelPlanBtn');
+if (cancelPlanBtn) {
+    cancelPlanBtn.addEventListener('click', () => {
+        // Reset selections
+        peopleOptions.forEach(o => o.classList.remove('active'));
+        mealsOptions.forEach(o => o.classList.remove('active'));
+        if (peopleOptions[0]) peopleOptions[0].classList.add('active');
+        if (mealsOptions[0]) mealsOptions[0].classList.add('active');
+        selectedPeople = 1;
+        selectedMeals = 3;
+        updateWeeklyPrice();
+    });
+}
+
+// Build Menu Button
+const buildMenuBtn = document.getElementById('buildMenuBtn');
+if (buildMenuBtn) {
+    buildMenuBtn.addEventListener('click', () => {
+        // Track event if user is signed in
+        const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
+        if (userEmail && isIterableInitialized()) {
+            trackEvent('Build Menu Clicked', {
+                email: userEmail,
+                dataFields: {},
+                createNewFields: true
+            });
+        }
+        // Note: Sign up form removed - this button can trigger a separate signup flow
+        console.log('Build Menu clicked - would trigger signup flow');
+    });
+}
+
+// CTA button handlers
+const ctaButtons = document.querySelectorAll('#ctaPrimary, #ctaBottom, .happy-foodies-cta .btn, .how-it-works-cta .btn');
 ctaButtons.forEach(btn => {
     if (btn) {
-        btn.addEventListener('click', () => {
-            // TODO: Track custom events to Iterable
-            console.log('CTA clicked:', btn.id);
+        btn.addEventListener('click', (e) => {
+            // If it's a link, let it handle navigation
+            if (btn.tagName === 'A') {
+                return;
+            }
+            
             // Scroll to signup form
             const signupSection = document.getElementById('signup');
             if (signupSection) {
                 signupSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            
+            // Track event if user is signed in
+            const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
+            if (userEmail && isIterableInitialized()) {
+                trackEvent('CTA Clicked', {
+                    email: userEmail,
+                    dataFields: {
+                        buttonId: btn.id || 'unknown',
+                        buttonText: btn.textContent
+                    },
+                    createNewFields: true
+                });
             }
         });
     }
@@ -674,3 +872,51 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+// Testimonials Carousel
+const carouselPrev = document.getElementById('carouselPrev');
+const carouselNext = document.getElementById('carouselNext');
+const testimonialsTrack = document.getElementById('testimonialsTrack');
+let currentSlide = 0;
+
+if (testimonialsTrack && carouselPrev && carouselNext) {
+    const testimonialCards = testimonialsTrack.querySelectorAll('.testimonial-card');
+    const cardsPerView = 3; // Show 3 cards at a time
+    const maxSlide = Math.max(0, testimonialCards.length - cardsPerView);
+    
+    function updateCarousel() {
+        const cardWidth = testimonialCards[0].offsetWidth + parseInt(getComputedStyle(testimonialsTrack).gap);
+        testimonialsTrack.style.transform = `translateX(-${currentSlide * cardWidth}px)`;
+        
+        carouselPrev.style.opacity = currentSlide === 0 ? '0.5' : '1';
+        carouselPrev.style.pointerEvents = currentSlide === 0 ? 'none' : 'auto';
+        carouselNext.style.opacity = currentSlide >= maxSlide ? '0.5' : '1';
+        carouselNext.style.pointerEvents = currentSlide >= maxSlide ? 'none' : 'auto';
+    }
+    
+    carouselPrev.addEventListener('click', () => {
+        if (currentSlide > 0) {
+            currentSlide--;
+            updateCarousel();
+        }
+    });
+    
+    carouselNext.addEventListener('click', () => {
+        if (currentSlide < maxSlide) {
+            currentSlide++;
+            updateCarousel();
+        }
+    });
+    
+    // Initialize carousel
+    updateCarousel();
+    
+    // Handle window resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            updateCarousel();
+        }, 250);
+    });
+}

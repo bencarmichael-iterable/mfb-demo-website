@@ -5,12 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Iterable Demo Site - Showcasing marketing automation capabilities"
+      content="My Food Bag - Choose your perfect bag. Fresh ingredients and delicious recipes delivered to your door."
     />
-    <title>Iterable Demo Site</title>
+    <title>My Food Bag - Choose your perfect bag</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <!-- Brand Selection Bar -->
+    <div class="brand-selection-bar">
+      <div class="container">
+        <div class="brand-selection-content">
+          <a href="#" class="brand-option active">
+            <div class="brand-icon brand-icon-mfb">
+              <img src="https://images.squarespace-cdn.com/content/v1/67c92a00bb19bc22c14bc5be/5419028c-d406-4ba9-93be-56eb95eeaf33/My+Food+Bag+White+Logo.png" alt="My Food Bag" />
+            </div>
+            <span>My Food Bag</span>
+          </a>
+          <a href="#" class="brand-option">
+            <div class="brand-icon brand-icon-fresh">
+              <img src="https://www.myfoodbag.co.nz/wp-content/uploads/2023/08/Fresh-Start-logo-1.png" alt="Fresh Start" />
+            </div>
+            <span>Fresh Start</span>
+          </a>
+          <a href="#" class="brand-option">
+            <div class="brand-icon brand-icon-bargain">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-sK5i65euMAsUy0XQF5mUaXb_14wQ_rQubA&s" alt="Bargain Box" />
+            </div>
+            <span>Bargain Box</span>
+          </a>
+          <a href="#" class="brand-option brand-option-shop">
+            <div class="brand-icon brand-icon-shop">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9zOnmRd6rqqy1cgKWAWCT7VvVW9ZnQP3s6g&s" alt="Shop" />
+            </div>
+            <span>Shop</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
     <!-- Header -->
     <header class="header">
       <div class="container">
@@ -18,32 +50,42 @@
           <div class="logo">
             <a href="index.html">
               <img
-                src="https://www.ematicsolutions.com/wp-content/uploads/2021/01/18-iterable-color.png"
-                alt="Iterable Logo"
+                src="https://investors.myfoodbag.co.nz/FormBuilder/_Resource/_module/E3k-tAFXQ02vXznnaJo7HA/img/logo.png"
+                alt="My Food Bag Logo"
                 class="logo-img"
               />
             </a>
           </div>
           <nav class="nav" id="mainNav">
-            <!-- Navigation will be populated dynamically based on auth state -->
-            <a href="#home" class="nav-link">Home</a>
             <div class="nav-dropdown">
-              <a href="#features" class="nav-link dropdown-toggle">Features</a>
+              <a href="#" class="nav-link dropdown-toggle">Our Plans <span class="chevron">▼</span></a>
               <div class="dropdown-menu">
-                <a href="data-capture.html" class="dropdown-item">Data Capture</a>
-                <a href="personalisation.html" class="dropdown-item">Personalisation</a>
-                <a href="automation.html" class="dropdown-item">Automation</a>
-                <a href="analytics.html" class="dropdown-item">Analytics</a>
+                <a href="#" class="dropdown-item">Full Menu</a>
+                <a href="#" class="dropdown-item">Vegan & Veggie</a>
+                <a href="#" class="dropdown-item">Gluten Free</a>
+                <a href="#" class="dropdown-item">Gourmet</a>
+                <a href="#" class="dropdown-item">Low Carb</a>
+                <a href="#" class="dropdown-item">Diabetes Plan</a>
               </div>
             </div>
-            <a href="#about" class="nav-link">About</a>
-            <a href="#signup" class="nav-link" id="signupLink">Sign Up</a>
-            <button class="btn btn-secondary" id="loginBtn">Sign In</button>
+            <a href="#" class="nav-link">Ready Made Meals</a>
+            <a href="#" class="nav-link">Gifting & Care Packages</a>
+            <a href="#" class="nav-link">Menus</a>
+            <div class="nav-dropdown">
+              <a href="#how-it-works" class="nav-link dropdown-toggle">How it Works <span class="chevron">▼</span></a>
+              <div class="dropdown-menu">
+                <a href="#how-it-works" class="dropdown-item">See How it Works</a>
+                <a href="#" class="dropdown-item">Know Your Allergens</a>
+                <a href="#" class="dropdown-item">Sustainability</a>
+                <a href="#" class="dropdown-item">Gift Vouchers</a>
+                <a href="#" class="dropdown-item">Garden to Table</a>
+              </div>
+            </div>
+            <a href="#" class="nav-link" id="signupLink">Sign Up</a>
+            <button class="btn btn-login" id="loginBtn">Log in</button>
             <div class="user-menu" id="userMenu" style="display: none">
               <div class="user-menu-info">
-                <span class="user-menu-email" id="userMenuEmail"
-                  >user@example.com</span
-                >
+                <span class="user-menu-email" id="userMenuEmail">user@example.com</span>
               </div>
               <button class="btn btn-outline btn-small" id="headerLogoutBtn">
                 Sign Out
@@ -58,282 +100,350 @@
     <section class="hero" id="home">
       <div class="container">
         <div class="hero-content">
-          <h1 class="hero-title">Iterable Demo Site</h1>
+          <h1 class="hero-title">Choose your perfect bag</h1>
           <p class="hero-subtitle">
-            Experience the power of personalised marketing automation. Capture
-            data, engage customers, and drive results.
+            My Food Bag provides you with a mid-week dinner routine – no matter your lifestyle or needs – that isn't stuck on repeat! Come home each night knowing you've got everything you need to enjoy simple, healthy and delicious recipes that are locally sourced and inspired by Nadia Lim.
           </p>
-            <div class="hero-cta">
-              <button class="btn btn-primary" id="ctaPrimary">Demo Request</button>
-            </div>
         </div>
       </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
+    <!-- Recipe Preference and Plan Selection (Side by Side) -->
+    <section class="recipe-plan-section">
       <div class="container">
-        <h2 class="section-title">Key Features</h2>
-        <div class="features-grid">
-          <a href="data-capture.html" class="feature-card">
-            <div class="feature-icon">📊</div>
-            <h3 class="feature-title">Data Capture</h3>
-            <p class="feature-description">
-              Flexibly capture user data from websites and apps with our
-              powerful API integration.
-            </p>
-          </a>
-          <a href="personalisation.html" class="feature-card">
-            <div class="feature-icon">🎯</div>
-            <h3 class="feature-title">Personalisation</h3>
-            <p class="feature-description">
-              Deliver personalised experiences based on real-time user behavior
-              and preferences.
-            </p>
-          </a>
-          <a href="automation.html" class="feature-card">
-            <div class="feature-icon">🚀</div>
-            <h3 class="feature-title">Automation</h3>
-            <p class="feature-description">
-              Automate your marketing campaigns with intelligent workflows and
-              triggers.
-            </p>
-          </a>
-          <a href="analytics.html" class="feature-card">
-            <div class="feature-icon">📈</div>
-            <h3 class="feature-title">Analytics</h3>
-            <p class="feature-description">
-              Track performance and optimize campaigns with comprehensive
-              analytics and insights.
-            </p>
-          </a>
+        <h2 class="section-title">30+ recipes to choose from every week</h2>
+        <div class="recipe-plan-layout">
+          <!-- Left Column: Recipe Preferences -->
+          <div class="recipe-preference-column">
+            <h3 class="column-title">What's your recipe preference?</h3>
+            <div class="recipe-preference-grid">
+              <button class="recipe-preference-card active" data-preference="all">
+                <div class="recipe-icon">
+                  <img src="https://mfbstatic.blob.core.windows.net/product-images/brand_icons/svg/MFBNadia.svg" alt="I Like Everything" />
+                </div>
+                <h4>I Like Everything</h4>
+                <p>Select from all 30+ recipes</p>
+              </button>
+              <button class="recipe-preference-card" data-preference="high-protein">
+                <div class="recipe-icon">
+                  <img src="https://mfbstatic.blob.core.windows.net/product-images/brand_icons/svg/MFBHighProtein.svg" alt="High Protein" />
+                </div>
+                <h4>High Protein</h4>
+                <p>40g or more of protein per serve</p>
+              </button>
+              <button class="recipe-preference-card" data-preference="quick-easy">
+                <div class="recipe-icon">
+                  <img src="https://mfbstatic.blob.core.windows.net/product-images/brand_icons/svg/MFBQuick.svg" alt="Quick & Easy" />
+                </div>
+                <h4>Quick & Easy</h4>
+                <p>15 mins, ready made & low prep</p>
+              </button>
+              <button class="recipe-preference-card" data-preference="kid-friendly">
+                <div class="recipe-icon">
+                  <img src="https://mfbstatic.blob.core.windows.net/product-images/brand_icons/svg/MFBFamily.svg" alt="Kid-Friendly" />
+                </div>
+                <h4>Kid-Friendly</h4>
+                <p>Kid-approved crowd pleasers</p>
+              </button>
+              <button class="recipe-preference-card" data-preference="low-carb">
+                <div class="recipe-icon">
+                  <img src="https://mfbstatic.blob.core.windows.net/product-images/brand_icons/svg/MFBHealthy.svg" alt="Low Carb & Healthier" />
+                </div>
+                <h4>Low Carb & Healthier</h4>
+                <p>Better for you options</p>
+              </button>
+              <button class="recipe-preference-card" data-preference="vegan">
+                <div class="recipe-icon">
+                  <img src="https://mfbstatic.blob.core.windows.net/product-images/brand_icons/svg/MFBPlantPower.svg" alt="Vegan & Veggie" />
+                </div>
+                <h4>Vegan & Veggie</h4>
+                <p>Meat-free options</p>
+              </button>
+              <button class="recipe-preference-card" data-preference="gourmet">
+                <div class="recipe-icon recipe-icon-black">
+                  <img src="https://mfbstatic.blob.core.windows.net/product-images/brand_icons/svg/MFBGourmet.svg" alt="Gourmet" />
+                </div>
+                <h4>Gourmet</h4>
+                <p>+$3.99 Per Plate<br>Restaurant quality for +$3.99 per plate</p>
+              </button>
+              <button class="recipe-preference-card" data-preference="gluten-free">
+                <div class="recipe-icon">
+                  <img src="https://mfbstatic.blob.core.windows.net/product-images/brand_icons/svg/MFBGlutenFree.svg" alt="Gluten Free" />
+                </div>
+                <h4>Gluten Free</h4>
+                <p>Supported by Coeliac New Zealand</p>
+              </button>
+              <button class="recipe-preference-card" data-preference="diabetes">
+                <div class="recipe-icon recipe-icon-black">
+                  <img src="https://mfbstatic.blob.core.windows.net/product-images/brand_icons/svg/MFBDiabetesFriendly.svg" alt="Diabetes Plan" />
+                </div>
+                <h4>Diabetes Plan</h4>
+                <p>Supported by Diabetes NZ</p>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Column: Plan Selection -->
+          <div class="plan-selection-column">
+            <h3 class="column-title">Select your plan</h3>
+            <div class="plan-selection-content">
+              <div class="plan-option-group">
+                <label class="plan-label">Number of people</label>
+                <div class="plan-options">
+                  <button class="plan-option active" data-people="1">1</button>
+                  <button class="plan-option" data-people="2">2</button>
+                  <button class="plan-option" data-people="4">4</button>
+                  <button class="plan-option" data-people="6">6</button>
+                </div>
+              </div>
+              <div class="plan-option-group">
+                <label class="plan-label">Meals per week</label>
+                <div class="plan-options">
+                  <button class="plan-option active" data-meals="3">3</button>
+                  <button class="plan-option" data-meals="4">4</button>
+                  <button class="plan-option" data-meals="5">5</button>
+                </div>
+              </div>
+            </div>
+            <div class="weekly-price-summary">
+              <div class="price-row">
+                <span class="price-label">Per Week</span>
+                <div class="price-values">
+                  <span class="price-current" id="weeklyPrice">$115.00</span>
+                  <span class="price-original" id="weeklyOriginal">$229.99</span>
+                </div>
+              </div>
+              <div class="price-row">
+                <span class="price-label">Per Plate</span>
+                <div class="price-values">
+                  <span class="price-current" id="platePrice">$5.75</span>
+                  <span class="price-original" id="plateOriginal">$11.50</span>
+                </div>
+              </div>
+            </div>
+            <div class="plan-actions">
+              <button class="btn btn-get-started btn-large btn-full" id="continuePlanBtn">Get Started</button>
+            </div>
+          </div>
+        </div>
+        <p class="recipe-note">Please note that certain recipes featured may be subject to a surcharge. Pricing information will be clearly displayed in your account area when selecting recipes.</p>
+      </div>
+    </section>
+
+    <!-- Dinner Time Routine Section -->
+    <section class="routine-section">
+      <div class="container">
+        <h2 class="section-title">Your Dinner Time Routine Sorted</h2>
+        <div class="routine-grid">
+          <div class="routine-card">
+            <div class="routine-image">
+              <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop" alt="Simple meal preparation" />
+            </div>
+            <h3>SIMPLE</h3>
+            <p>15-minute and Smart Prep recipes including Pre-prepped, Easy Clean-up, Batch Cook and Ready Made.</p>
+          </div>
+          <div class="routine-card">
+            <div class="routine-image">
+              <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop" alt="Healthy salad" />
+            </div>
+            <h3>HEALTHY</h3>
+            <p>Heart Healthy, Nutritionist's Pick, Veggie and Plant-based recipes.</p>
+          </div>
+          <div class="routine-card">
+            <div class="routine-image">
+              <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400&h=300&fit=crop" alt="Delicious meal" />
+            </div>
+            <h3>… and always DELICIOUS!</h3>
+            <p>With 30+ recipes to choose from each week, you'll always have new recipes to try (with plenty of favourites in the mix!) to ensure your routine never feels like it's stuck on repeat.</p>
+          </div>
+        </div>
+        <div class="routine-cta">
+          <button class="btn btn-build-menu btn-large" id="buildMenuBtn">Build your perfect menu</button>
         </div>
       </div>
     </section>
 
     <!-- How It Works Section -->
-    <section class="how-it-works" id="about">
+    <section class="how-it-works" id="how-it-works">
       <div class="container">
-        <h2 class="section-title">How It Works</h2>
+        <h2 class="section-title">How it Works</h2>
         <div class="steps">
           <div class="step">
-            <div class="step-number">1</div>
-            <h3 class="step-title">Capture Events</h3>
+            <div class="step-icon">
+              <img src="https://images.ctfassets.net/h5bq1gt24416/6LWtY2fUQfpJVsbOzPLdSz/febe83032437ea2166510502a1be9350/New_homepage_icon_Choose_your_recipes.svg" alt="Choose your recipes" />
+            </div>
+            <h3 class="step-title">Choose your recipes</h3>
             <p class="step-description">
-              Track user interactions and custom events from your website and
-              applications.
+              Select from a range of delicious, nutritious dinners developed by our local chefs
             </p>
           </div>
           <div class="step">
-            <div class="step-number">2</div>
-            <h3 class="step-title">Update Profiles</h3>
+            <div class="step-icon">
+              <img src="https://images.ctfassets.net/h5bq1gt24416/5R9SZ4SKFbr8EOqkz9adky/025fb0d3c1a5283df76888a67623c2c8/New_homepage_icon_The_kitchen.svg" alt="Add extras to your order" />
+            </div>
+            <h3 class="step-title">Add extras to your order</h3>
             <p class="step-description">
-              Enrich user profiles with real-time data to build comprehensive
-              customer insights.
+              Explore our curated range of goodies to add onto your order to complete your box
             </p>
           </div>
           <div class="step">
-            <div class="step-number">3</div>
-            <h3 class="step-title">Engage & Convert</h3>
+            <div class="step-icon">
+              <img src="https://images.ctfassets.net/h5bq1gt24416/3LAcmMamVyhLVfavVKNq7g/1e742d2cea04c064e96e71b89137950d/New_homepage_icon_delivered_to_your_door.svg" alt="We deliver to your door" />
+            </div>
+            <h3 class="step-title">We deliver to your door</h3>
             <p class="step-description">
-              Deliver personalised messages and experiences that drive
-              engagement and conversions.
+              We order, pack and ship each week to deliver the freshest ingredients
             </p>
           </div>
+          <div class="step">
+            <div class="step-icon">
+              <img src="https://images.ctfassets.net/h5bq1gt24416/vYCL9uA1Ejhfnimy2ySyY/2939ef0e7f6fcb9a607b1b0b0de1dec8/New_homepage_icon_Cook_and_enjoy.svg" alt="Cook, enjoy, repeat" />
+            </div>
+            <h3 class="step-title">Cook, enjoy, repeat</h3>
+            <p class="step-description">
+              With easy to follow instructions, you'll enjoy a delicious dinner time routine in no time!
+            </p>
+          </div>
+        </div>
+        <div class="how-it-works-cta">
+          <a href="#" class="btn btn-find-out-more">Find out more</a>
         </div>
       </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
+    <!-- Happy Foodies Section -->
+    <section class="happy-foodies-section">
       <div class="container">
-        <div class="cta-content">
-          <h2 class="cta-title">Ready to Get Started?</h2>
-          <p class="cta-description">
-            Experience the full power of Iterable's marketing automation
-            platform.
-          </p>
-          <div class="cta-buttons">
-            <button class="btn btn-primary btn-large" id="ctaBottom">
-              Start Your Demo
-            </button>
+        <h2 class="section-title">Our happy foodies</h2>
+        <div class="testimonial-rating">
+          <span class="rating-text">Excellent</span>
+          <div class="rating-stars">★★★★★</div>
+          <span class="rating-count">4.63 based on 4,961 reviews</span>
+        </div>
+        <div class="testimonials-carousel">
+          <button class="carousel-btn carousel-prev" id="carouselPrev">‹</button>
+          <div class="testimonials-track" id="testimonialsTrack">
+            <div class="testimonial-card">
+              <div class="testimonial-header">
+                <div class="testimonial-name">Lara</div>
+                <div class="testimonial-stars">★★★★★</div>
+              </div>
+              <div class="testimonial-verified">✔ Verified Customer</div>
+              <p class="testimonial-text">"My Food Bag has been amazing for me recovering from a chronic illness. I couldn't cook so the ready meals have kept me eating healthy and nutritious food. Highly recommend!"</p>
+              <div class="testimonial-details">
+                <span>6 Meals</span>
+                <span>4 months ago</span>
+              </div>
+            </div>
+            <div class="testimonial-card">
+              <div class="testimonial-header">
+                <div class="testimonial-name">Kasey</div>
+                <div class="testimonial-stars">★★★★★</div>
+              </div>
+              <div class="testimonial-verified">✔ Verified Customer</div>
+              <p class="testimonial-text">"Very happy with the quality of food and the well planned recipes we get from My Food Bag. It certainly helps this busy family eat well!"</p>
+              <div class="testimonial-details">
+                <span>My Choice (3 Nights For 4)</span>
+                <span>4 months ago</span>
+              </div>
+            </div>
+            <div class="testimonial-card">
+              <div class="testimonial-header">
+                <div class="testimonial-name">Judy</div>
+                <div class="testimonial-stars">★★★★★</div>
+              </div>
+              <div class="testimonial-verified">✔ Verified Customer</div>
+              <p class="testimonial-text">"Fresh and delicious, look forward to preparing the meal for dinner. Fun in the kitchen!!"</p>
+              <div class="testimonial-details">
+                <span>6 Meals</span>
+                <span>5 months ago</span>
+              </div>
+            </div>
+            <div class="testimonial-card">
+              <div class="testimonial-header">
+                <div class="testimonial-name">Chris</div>
+                <div class="testimonial-stars">★★★★★</div>
+              </div>
+              <div class="testimonial-verified">✔ Verified Customer</div>
+              <p class="testimonial-text">"We love the variety of meals. Fresh new flavours and tasty ingredients. The ability to pick our menus means we can choose what we like!"</p>
+              <div class="testimonial-details">
+                <span>My Choice (5 Nights For 2)</span>
+                <span>5 months ago</span>
+              </div>
+            </div>
           </div>
+          <button class="carousel-btn carousel-next" id="carouselNext">›</button>
+        </div>
+        <div class="happy-foodies-cta">
+          <a href="#" class="btn btn-choose-plan btn-large">Choose my plan</a>
         </div>
       </div>
     </section>
 
-    <!-- Sign Up Section -->
-    <section class="signup-section" id="signup">
-      <div class="container">
-        <div class="signup-content">
-            <h2 class="section-title">Sign up for Demo</h2>
-          <p class="signup-description">
-            Join us today and start experiencing personalised marketing
-            automation.
-          </p>
-          <form class="signup-form" id="signupForm">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="firstName"
-                  >First Name <span class="required">*</span></label
-                >
-                <input type="text" id="firstName" name="firstName" required />
-              </div>
-              <div class="form-group">
-                <label for="lastName"
-                  >Last Name <span class="required">*</span></label
-                >
-                <input type="text" id="lastName" name="lastName" required />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="signupEmail"
-                  >Email Address <span class="required">*</span></label
-                >
-                <input type="email" id="signupEmail" name="email" required />
-              </div>
-              <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  placeholder="+1 (555) 123-4567"
-                />
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="company">Company Name</label>
-              <input type="text" id="company" name="company" />
-            </div>
-            <div class="form-group">
-              <label class="form-section-label">Key Interests</label>
-              <div class="checkbox-group interests-group">
-                <label class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    name="interests"
-                    value="email-marketing"
-                  />
-                  <span>Email Marketing</span>
-                </label>
-                <label class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    name="interests"
-                    value="sms-marketing"
-                  />
-                  <span>SMS Marketing</span>
-                </label>
-                <label class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    name="interests"
-                    value="push-notifications"
-                  />
-                  <span>Push Notifications</span>
-                </label>
-                <label class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    name="interests"
-                    value="in-app-messaging"
-                  />
-                  <span>In-App Messaging</span>
-                </label>
-                <label class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    name="interests"
-                    value="marketing-automation"
-                  />
-                  <span>Marketing Automation</span>
-                </label>
-                <label class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    name="interests"
-                    value="customer-segmentation"
-                  />
-                  <span>Customer Segmentation</span>
-                </label>
-                <label class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    name="interests"
-                    value="analytics-reporting"
-                  />
-                  <span>Analytics & Reporting</span>
-                </label>
-                <label class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    name="interests"
-                    value="personalisation"
-                  />
-                  <span>Personalisation</span>
-                </label>
-              </div>
-            </div>
-            <div class="form-separator"></div>
-            <div class="form-group">
-              <label class="form-section-label"
-                >Marketing Consent
-                <span class="optional-text">(Optional)</span></label
-              >
-              <div class="checkbox-group">
-                <label class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    id="consentEmail"
-                    name="consentEmail"
-                    value="email"
-                  />
-                  <span>Email Marketing</span>
-                </label>
-                <label class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    id="consentSMS"
-                    name="consentSMS"
-                    value="sms"
-                  />
-                  <span>SMS Marketing</span>
-                </label>
-              </div>
-            </div>
-            <div class="form-group form-group-spaced">
-              <label class="checkbox-label">
-                <input
-                  type="checkbox"
-                  id="termsConsent"
-                  name="termsConsent"
-                  required
-                />
-                <span
-                  >I agree to the
-                  <a href="#" class="link">Terms of Service</a> and
-                  <a href="#" class="link">Privacy Policy</a>
-                  <span class="required">*</span></span
-                >
-              </label>
-            </div>
-            <button type="submit" class="btn btn-primary btn-large btn-full">
-              Sign Up
-            </button>
-          </form>
-        </div>
-      </div>
-    </section>
 
     <!-- Footer -->
     <footer class="footer">
       <div class="container">
         <div class="footer-content">
+          <div class="footer-column">
+            <h4 class="footer-heading">Useful Links</h4>
+            <ul class="footer-links">
+              <li><a href="#">My Account</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Recipes</a></li>
+              <li><a href="#">Help Centre</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Investor Centre</a></li>
+              <li><a href="#">Partnerships</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4 class="footer-heading">Shop</h4>
+            <ul class="footer-links">
+              <li><a href="#">About Shop</a></li>
+              <li><a href="#">FAQs</a></li>
+              <li><a href="#">Refund Policy</a></li>
+              <li><a href="#">Corporate</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4 class="footer-heading">Download our app</h4>
+            <div class="app-downloads">
+              <a href="#" class="app-download-btn app-store">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Download_on_the_App_Store_RGB_blk.svg/1280px-Download_on_the_App_Store_RGB_blk.svg.png" alt="Download on the App Store" />
+              </a>
+              <a href="#" class="app-download-btn google-play">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/960px-Google_Play_Store_badge_EN.svg.png" alt="Get it on Google Play" />
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
           <p class="footer-text">
-            &copy; 2025 Iterable Demo Site. Built for demonstration purposes.
+            &copy; 2026 My Food Bag Ltd. All Rights Reserved - <a href="#">Terms & Conditions</a> - <a href="#">Privacy Policy</a> - <a href="#">Contact Us</a>
           </p>
+          <div class="footer-social">
+            <a href="#" class="social-icon" aria-label="Facebook">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </a>
+            <a href="#" class="social-icon" aria-label="Instagram">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </a>
+            <a href="#" class="social-icon" aria-label="Twitter">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+              </svg>
+            </a>
+            <a href="#" class="social-icon" aria-label="YouTube">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+            </a>
+          </div>
           <div class="footer-actions">
             <a href="/custom-event.html" class="btn btn-secondary btn-small">Trigger Custom Event</a>
             <a href="/update-profile.html" class="btn btn-secondary btn-small">Update Profile</a>
@@ -342,39 +452,33 @@
       </div>
     </footer>
 
-    <!-- Login Modal (hidden by default, will be shown when needed) -->
+    <!-- Login Modal -->
     <div class="modal" id="loginModal">
       <div class="modal-content">
         <span class="modal-close" id="modalClose">&times;</span>
-        <h2 class="modal-title">Sign In</h2>
+        <h2 class="modal-title">Log In</h2>
         <form class="login-form" id="loginForm">
           <div class="form-group">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required />
           </div>
           <button type="submit" class="btn btn-primary btn-full">
-            Sign In
+            Log In
           </button>
         </form>
       </div>
     </div>
 
-    <!-- Logged In State (hidden by default) -->
+    <!-- Logged In State -->
     <div class="user-panel" id="userPanel" style="display: none">
       <div class="container">
         <div class="user-panel-content">
           <div class="user-info">
-            <span class="user-greeting"
-              >Welcome, <span id="userDisplayName">User</span>!</span
-            >
+            <span class="user-greeting">Welcome, <span id="userDisplayName">User</span>!</span>
           </div>
           <div class="user-actions">
-            <button class="btn btn-secondary" id="triggerEventBtn">
-              Trigger Custom Event
-            </button>
-            <button class="btn btn-secondary" id="updateProfileBtn">
-              Update Profile
-            </button>
+            <button class="btn btn-secondary" id="triggerEventBtn">Trigger Custom Event</button>
+            <button class="btn btn-secondary" id="updateProfileBtn">Update Profile</button>
             <button class="btn btn-outline" id="logoutBtn">Sign Out</button>
           </div>
         </div>
