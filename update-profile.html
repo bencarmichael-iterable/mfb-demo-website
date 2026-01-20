@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update User Profile - Iterable Demo</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <a href="/" class="logo">
+            <img
+              src="https://www.ematicsolutions.com/wp-content/uploads/2021/01/18-iterable-color.png"
+              alt="Iterable Logo"
+            />
+          </a>
+          <nav class="nav">
+            <a href="/" class="nav-link">Home</a>
+            <div class="nav-dropdown">
+              <a href="#" class="nav-link dropdown-toggle">Features</a>
+              <div class="dropdown-menu">
+                <a href="/data-capture.html" class="dropdown-item">Data Capture</a>
+                <a href="/personalisation.html" class="dropdown-item">Personalisation</a>
+                <a href="/automation.html" class="dropdown-item">Automation</a>
+                <a href="/analytics.html" class="dropdown-item">Analytics</a>
+              </div>
+            </div>
+            <a href="#about" class="nav-link">About</a>
+            <span id="loginBtn" class="btn btn-primary">Sign In</span>
+            <div id="userMenu" class="user-menu" style="display: none">
+              <span id="userMenuEmail" class="user-menu-email"></span>
+              <button id="headerLogoutBtn" class="btn btn-secondary btn-small">Sign Out</button>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <section class="section">
+        <div class="container">
+          <h1 class="section-title">Update User Profile</h1>
+          <p class="section-description">
+            Use this form to update user profiles or create new users in Iterable. This mimics the
+            <code>POST /api/users/update</code> API endpoint.
+          </p>
+
+          <form id="updateProfileForm" class="form">
+            <div class="form-group">
+              <label for="profileEmail">Email *</label>
+              <input
+                type="email"
+                id="profileEmail"
+                name="email"
+                required
+                placeholder="user@example.com"
+              />
+              <small class="form-help">User email address (required)</small>
+            </div>
+
+            <div class="form-group">
+              <label for="profileUserId">User ID</label>
+              <input
+                type="text"
+                id="profileUserId"
+                name="userId"
+                placeholder="user123"
+              />
+              <small class="form-help">User ID (optional)</small>
+            </div>
+
+            <div class="form-group">
+              <label>Data Fields (Key-Value Pairs) *</label>
+              <div id="profileDataFieldsContainer" class="key-value-container">
+                <!-- Key-value pairs will be added here dynamically -->
+              </div>
+              <button type="button" id="addProfileFieldBtn" class="btn btn-secondary btn-small">
+                + Add Field
+              </button>
+              <small class="form-help">Add user data fields as key-value pairs. For nested objects, use dot notation (e.g., "company.name" for {"company": {"name": "value"}})</small>
+            </div>
+
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="mergeNestedObjects" name="mergeNestedObjects" checked />
+                <span>Merge Nested Objects</span>
+              </label>
+              <small class="form-help">When enabled, nested objects are merged instead of replaced</small>
+            </div>
+
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="createNewFields" name="createNewFields" checked />
+                <span>Create New Fields</span>
+              </label>
+              <small class="form-help">When enabled, new fields are automatically created in Iterable</small>
+            </div>
+
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="preferUserId" name="preferUserId" />
+                <span>Prefer User ID</span>
+              </label>
+              <small class="form-help">When enabled, creates new user if userId doesn't exist (email-based projects only)</small>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary btn-large">Update Profile</button>
+              <button type="reset" class="btn btn-secondary">Clear Form</button>
+            </div>
+          </form>
+
+          <div id="profileResult" class="result-message" style="display: none"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p class="footer-text">
+            &copy; 2025 Iterable Demo Site. Built for demonstration purposes.
+          </p>
+          <div class="footer-actions">
+            <a href="/custom-event.html" class="btn btn-secondary btn-small">Trigger Custom Event</a>
+            <a href="/update-profile.html" class="btn btn-secondary btn-small">Update Profile</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+      <div class="modal-content">
+        <span class="modal-close" id="modalClose">&times;</span>
+        <h2 class="modal-title">Sign In</h2>
+        <form class="login-form" id="loginForm">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Logged In State -->
+    <div class="user-panel" id="userPanel" style="display: none">
+      <div class="container">
+        <div class="user-panel-content">
+          <div class="user-info">
+            <span class="user-greeting">Welcome, <span id="userDisplayName">User</span>!</span>
+          </div>
+          <div class="user-actions">
+            <button class="btn btn-secondary" id="triggerEventBtn">Trigger Custom Event</button>
+            <button class="btn btn-secondary" id="updateProfileBtn">Update Profile</button>
+            <button class="btn btn-secondary" id="logoutBtn">Sign Out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/script.js"></script>
+    <script type="module" src="/update-profile.js"></script>
+  </body>
+</html>

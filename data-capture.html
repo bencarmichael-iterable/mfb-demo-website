@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Data Capture - Iterable Demo Site"
+    />
+    <title>Data Capture - Iterable Demo Site</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <a href="index.html">
+              <img
+                src="https://www.ematicsolutions.com/wp-content/uploads/2021/01/18-iterable-color.png"
+                alt="Iterable Logo"
+                class="logo-img"
+              />
+            </a>
+          </div>
+          <nav class="nav" id="mainNav">
+            <a href="index.html#home" class="nav-link">Home</a>
+            <div class="nav-dropdown">
+              <a href="index.html#features" class="nav-link dropdown-toggle">Features</a>
+              <div class="dropdown-menu">
+                <a href="data-capture.html" class="dropdown-item">Data Capture</a>
+                <a href="personalisation.html" class="dropdown-item">Personalisation</a>
+                <a href="automation.html" class="dropdown-item">Automation</a>
+                <a href="analytics.html" class="dropdown-item">Analytics</a>
+              </div>
+            </div>
+            <a href="index.html#about" class="nav-link">About</a>
+            <a href="index.html#signup" class="nav-link" id="signupLink">Sign Up</a>
+            <button class="btn btn-secondary" id="loginBtn">Sign In</button>
+            <div class="user-menu" id="userMenu" style="display: none">
+              <div class="user-menu-info">
+                <span class="user-menu-email" id="userMenuEmail">user@example.com</span>
+              </div>
+              <button class="btn btn-outline btn-small" id="headerLogoutBtn">Sign Out</button>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Feature Page Content -->
+    <section class="feature-page">
+      <div class="container">
+        <div class="feature-page-content">
+          <h1 class="feature-page-title">Data Capture</h1>
+          <p class="feature-page-intro">
+            Flexibly capture user data from websites and apps with our powerful API integration. 
+            Track interactions, collect preferences, and build comprehensive customer profiles.
+          </p>
+          
+          <div class="feature-details">
+            <h2>Key Capabilities</h2>
+            <ul class="feature-list">
+              <li>Real-time event tracking from websites and mobile apps</li>
+              <li>Flexible API integration for custom data capture</li>
+              <li>User profile enrichment with behavioral data</li>
+              <li>Seamless data synchronization across platforms</li>
+              <li>Custom data fields for business-specific attributes</li>
+            </ul>
+
+            <h2>How It Works</h2>
+            <p>
+              Our data capture solution allows you to track user interactions and collect 
+              valuable information at every touchpoint. Whether it's a page view, button click, 
+              or form submission, you can capture and store this data to build a complete 
+              picture of your customer journey.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p class="footer-text">&copy; 2025 Iterable Demo Site. Built for demonstration purposes.</p>
+          <div class="footer-actions">
+            <a href="/custom-event.html" class="btn btn-secondary btn-small">Trigger Custom Event</a>
+            <a href="/update-profile.html" class="btn btn-secondary btn-small">Update Profile</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

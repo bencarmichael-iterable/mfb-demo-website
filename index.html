@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Iterable Demo Site - Showcasing marketing automation capabilities"
+    />
+    <title>Iterable Demo Site</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <a href="index.html">
+              <img
+                src="https://www.ematicsolutions.com/wp-content/uploads/2021/01/18-iterable-color.png"
+                alt="Iterable Logo"
+                class="logo-img"
+              />
+            </a>
+          </div>
+          <nav class="nav" id="mainNav">
+            <!-- Navigation will be populated dynamically based on auth state -->
+            <a href="#home" class="nav-link">Home</a>
+            <div class="nav-dropdown">
+              <a href="#features" class="nav-link dropdown-toggle">Features</a>
+              <div class="dropdown-menu">
+                <a href="data-capture.html" class="dropdown-item">Data Capture</a>
+                <a href="personalisation.html" class="dropdown-item">Personalisation</a>
+                <a href="automation.html" class="dropdown-item">Automation</a>
+                <a href="analytics.html" class="dropdown-item">Analytics</a>
+              </div>
+            </div>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#signup" class="nav-link" id="signupLink">Sign Up</a>
+            <button class="btn btn-secondary" id="loginBtn">Sign In</button>
+            <div class="user-menu" id="userMenu" style="display: none">
+              <div class="user-menu-info">
+                <span class="user-menu-email" id="userMenuEmail"
+                  >user@example.com</span
+                >
+              </div>
+              <button class="btn btn-outline btn-small" id="headerLogoutBtn">
+                Sign Out
+              </button>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">Iterable Demo Site</h1>
+          <p class="hero-subtitle">
+            Experience the power of personalised marketing automation. Capture
+            data, engage customers, and drive results.
+          </p>
+            <div class="hero-cta">
+              <button class="btn btn-primary" id="ctaPrimary">Demo Request</button>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+      <div class="container">
+        <h2 class="section-title">Key Features</h2>
+        <div class="features-grid">
+          <a href="data-capture.html" class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3 class="feature-title">Data Capture</h3>
+            <p class="feature-description">
+              Flexibly capture user data from websites and apps with our
+              powerful API integration.
+            </p>
+          </a>
+          <a href="personalisation.html" class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3 class="feature-title">Personalisation</h3>
+            <p class="feature-description">
+              Deliver personalised experiences based on real-time user behavior
+              and preferences.
+            </p>
+          </a>
+          <a href="automation.html" class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <h3 class="feature-title">Automation</h3>
+            <p class="feature-description">
+              Automate your marketing campaigns with intelligent workflows and
+              triggers.
+            </p>
+          </a>
+          <a href="analytics.html" class="feature-card">
+            <div class="feature-icon">📈</div>
+            <h3 class="feature-title">Analytics</h3>
+            <p class="feature-description">
+              Track performance and optimize campaigns with comprehensive
+              analytics and insights.
+            </p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="about">
+      <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3 class="step-title">Capture Events</h3>
+            <p class="step-description">
+              Track user interactions and custom events from your website and
+              applications.
+            </p>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3 class="step-title">Update Profiles</h3>
+            <p class="step-description">
+              Enrich user profiles with real-time data to build comprehensive
+              customer insights.
+            </p>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3 class="step-title">Engage & Convert</h3>
+            <p class="step-description">
+              Deliver personalised messages and experiences that drive
+              engagement and conversions.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2 class="cta-title">Ready to Get Started?</h2>
+          <p class="cta-description">
+            Experience the full power of Iterable's marketing automation
+            platform.
+          </p>
+          <div class="cta-buttons">
+            <button class="btn btn-primary btn-large" id="ctaBottom">
+              Start Your Demo
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sign Up Section -->
+    <section class="signup-section" id="signup">
+      <div class="container">
+        <div class="signup-content">
+            <h2 class="section-title">Sign up for Demo</h2>
+          <p class="signup-description">
+            Join us today and start experiencing personalised marketing
+            automation.
+          </p>
+          <form class="signup-form" id="signupForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName"
+                  >First Name <span class="required">*</span></label
+                >
+                <input type="text" id="firstName" name="firstName" required />
+              </div>
+              <div class="form-group">
+                <label for="lastName"
+                  >Last Name <span class="required">*</span></label
+                >
+                <input type="text" id="lastName" name="lastName" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="signupEmail"
+                  >Email Address <span class="required">*</span></label
+                >
+                <input type="email" id="signupEmail" name="email" required />
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  placeholder="+1 (555) 123-4567"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="company">Company Name</label>
+              <input type="text" id="company" name="company" />
+            </div>
+            <div class="form-group">
+              <label class="form-section-label">Key Interests</label>
+              <div class="checkbox-group interests-group">
+                <label class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    name="interests"
+                    value="email-marketing"
+                  />
+                  <span>Email Marketing</span>
+                </label>
+                <label class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    name="interests"
+                    value="sms-marketing"
+                  />
+                  <span>SMS Marketing</span>
+                </label>
+                <label class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    name="interests"
+                    value="push-notifications"
+                  />
+                  <span>Push Notifications</span>
+                </label>
+                <label class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    name="interests"
+                    value="in-app-messaging"
+                  />
+                  <span>In-App Messaging</span>
+                </label>
+                <label class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    name="interests"
+                    value="marketing-automation"
+                  />
+                  <span>Marketing Automation</span>
+                </label>
+                <label class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    name="interests"
+                    value="customer-segmentation"
+                  />
+                  <span>Customer Segmentation</span>
+                </label>
+                <label class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    name="interests"
+                    value="analytics-reporting"
+                  />
+                  <span>Analytics & Reporting</span>
+                </label>
+                <label class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    name="interests"
+                    value="personalisation"
+                  />
+                  <span>Personalisation</span>
+                </label>
+              </div>
+            </div>
+            <div class="form-separator"></div>
+            <div class="form-group">
+              <label class="form-section-label"
+                >Marketing Consent
+                <span class="optional-text">(Optional)</span></label
+              >
+              <div class="checkbox-group">
+                <label class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="consentEmail"
+                    name="consentEmail"
+                    value="email"
+                  />
+                  <span>Email Marketing</span>
+                </label>
+                <label class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="consentSMS"
+                    name="consentSMS"
+                    value="sms"
+                  />
+                  <span>SMS Marketing</span>
+                </label>
+              </div>
+            </div>
+            <div class="form-group form-group-spaced">
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  id="termsConsent"
+                  name="termsConsent"
+                  required
+                />
+                <span
+                  >I agree to the
+                  <a href="#" class="link">Terms of Service</a> and
+                  <a href="#" class="link">Privacy Policy</a>
+                  <span class="required">*</span></span
+                >
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-large btn-full">
+              Sign Up
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p class="footer-text">
+            &copy; 2025 Iterable Demo Site. Built for demonstration purposes.
+          </p>
+          <div class="footer-actions">
+            <a href="/custom-event.html" class="btn btn-secondary btn-small">Trigger Custom Event</a>
+            <a href="/update-profile.html" class="btn btn-secondary btn-small">Update Profile</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Login Modal (hidden by default, will be shown when needed) -->
+    <div class="modal" id="loginModal">
+      <div class="modal-content">
+        <span class="modal-close" id="modalClose">&times;</span>
+        <h2 class="modal-title">Sign In</h2>
+        <form class="login-form" id="loginForm">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">
+            Sign In
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Logged In State (hidden by default) -->
+    <div class="user-panel" id="userPanel" style="display: none">
+      <div class="container">
+        <div class="user-panel-content">
+          <div class="user-info">
+            <span class="user-greeting"
+              >Welcome, <span id="userDisplayName">User</span>!</span
+            >
+          </div>
+          <div class="user-actions">
+            <button class="btn btn-secondary" id="triggerEventBtn">
+              Trigger Custom Event
+            </button>
+            <button class="btn btn-secondary" id="updateProfileBtn">
+              Update Profile
+            </button>
+            <button class="btn btn-outline" id="logoutBtn">Sign Out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

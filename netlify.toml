@@ -1,0 +1,7 @@
+# Netlify configuration file
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Note: Removed the catch-all redirect since we have multiple HTML pages
+# Each page (index.html, data-capture.html, etc.) should be served directly

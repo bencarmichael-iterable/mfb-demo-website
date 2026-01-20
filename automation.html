@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Automation - Iterable Demo Site"
+    />
+    <title>Automation - Iterable Demo Site</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <a href="index.html">
+              <img
+                src="https://www.ematicsolutions.com/wp-content/uploads/2021/01/18-iterable-color.png"
+                alt="Iterable Logo"
+                class="logo-img"
+              />
+            </a>
+          </div>
+          <nav class="nav" id="mainNav">
+            <a href="index.html#home" class="nav-link">Home</a>
+            <div class="nav-dropdown">
+              <a href="index.html#features" class="nav-link dropdown-toggle">Features</a>
+              <div class="dropdown-menu">
+                <a href="data-capture.html" class="dropdown-item">Data Capture</a>
+                <a href="personalisation.html" class="dropdown-item">Personalisation</a>
+                <a href="automation.html" class="dropdown-item">Automation</a>
+                <a href="analytics.html" class="dropdown-item">Analytics</a>
+              </div>
+            </div>
+            <a href="index.html#about" class="nav-link">About</a>
+            <a href="index.html#signup" class="nav-link" id="signupLink">Sign Up</a>
+            <button class="btn btn-secondary" id="loginBtn">Sign In</button>
+            <div class="user-menu" id="userMenu" style="display: none">
+              <div class="user-menu-info">
+                <span class="user-menu-email" id="userMenuEmail">user@example.com</span>
+              </div>
+              <button class="btn btn-outline btn-small" id="headerLogoutBtn">Sign Out</button>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Feature Page Content -->
+    <section class="feature-page">
+      <div class="container">
+        <div class="feature-page-content">
+          <h1 class="feature-page-title">Automation</h1>
+          <p class="feature-page-intro">
+            Automate your marketing campaigns with intelligent workflows and triggers. 
+            Save time while delivering timely, relevant messages to your customers.
+          </p>
+          
+          <div class="feature-details">
+            <h2>Key Capabilities</h2>
+            <ul class="feature-list">
+              <li>Workflow automation with drag-and-drop journey builder</li>
+              <li>Event-triggered campaigns and messaging</li>
+              <li>Multi-channel automation (email, SMS, push, in-app)</li>
+              <li>Conditional logic and branching workflows</li>
+              <li>Scheduled and recurring campaign automation</li>
+            </ul>
+
+            <h2>How It Works</h2>
+            <p>
+              Build sophisticated marketing automation workflows that respond to user actions 
+              in real-time. Set up triggers based on events, user behavior, or time-based 
+              schedules. Our automation engine handles the complexity, so you can focus on 
+              creating great customer experiences.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p class="footer-text">&copy; 2025 Iterable Demo Site. Built for demonstration purposes.</p>
+          <div class="footer-actions">
+            <a href="/custom-event.html" class="btn btn-secondary btn-small">Trigger Custom Event</a>
+            <a href="/update-profile.html" class="btn btn-secondary btn-small">Update Profile</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
