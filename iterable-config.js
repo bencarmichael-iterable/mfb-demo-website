@@ -3,10 +3,22 @@
 // ============================================
 // SDK initializes when user signs in
 
-import { initializeWithConfig, track, updateUser as sdkUpdateUser, updateSubscriptions as sdkUpdateSubscriptions } from '@iterable/web-sdk';
+// ============================================
+// SDK DISABLED - Re-enable after re-skinning
+// ============================================
+// To re-enable:
+// 1. Set SDK_ENABLED = true below
+// 2. Add your new API key to .env.local as VITE_ITERABLE_API_KEY=your_key_here
+// 3. Uncomment the SDK imports below
+// 4. Run npm install to ensure @iterable/web-sdk is installed
 
-// Get API key from environment variable
-const API_KEY = import.meta.env.VITE_ITERABLE_API_KEY;
+const SDK_ENABLED = false; // Set to true to enable SDK functionality
+
+// SDK imports (commented out while disabled)
+// import { initializeWithConfig, track, updateUser as sdkUpdateUser, updateSubscriptions as sdkUpdateSubscriptions } from '@iterable/web-sdk';
+
+// Get API key from environment variable (will be null while disabled)
+const API_KEY = SDK_ENABLED ? import.meta.env.VITE_ITERABLE_API_KEY : null;
 
 // Configuration object
 let iterableConfig = {
@@ -22,6 +34,12 @@ let iterableConfig = {
  * @param {Object} options - Additional configuration options
  */
 export async function initializeIterable(email, options = {}) {
+    // SDK is disabled - return early
+    if (!SDK_ENABLED) {
+        console.log('Iterable SDK: Disabled (set SDK_ENABLED = true to enable)');
+        return null;
+    }
+    
     // Check API key first
     if (!iterableConfig.apiKey) {
         console.error('Iterable SDK: API key not found. Check .env.local or Netlify environment variables.');
@@ -39,6 +57,12 @@ export async function initializeIterable(email, options = {}) {
         return iterableConfig.sdkInstance;
     }
 
+    // SDK is disabled - return early
+    console.log('Iterable SDK: Attempting initialization but SDK is disabled');
+    console.log('To enable: Set SDK_ENABLED = true and uncomment SDK imports at top of file');
+    return null;
+    
+    /* SDK initialization code (disabled - uncomment when re-enabling)
     try {
         console.log('Iterable SDK: Attempting initialization with API key:', iterableConfig.apiKey ? 'Present' : 'Missing');
         
@@ -117,6 +141,7 @@ export async function initializeIterable(email, options = {}) {
         console.error('Iterable SDK: Initialization error', error);
         return null;
     }
+    */
 }
 
 /**
@@ -140,6 +165,12 @@ export function isIterableInitialized() {
  * @returns {Promise} - Returns promise that resolves on success
  */
 export async function trackEvent(eventName, eventData = {}) {
+    // SDK is disabled - return early
+    if (!SDK_ENABLED) {
+        console.log(`Iterable SDK: trackEvent called for "${eventName}" but SDK is disabled`);
+        return Promise.resolve(); // Resolve (not reject) so UI doesn't break
+    }
+    
     if (!isIterableInitialized()) {
         console.warn('Iterable SDK: Not initialized. Cannot track event.');
         return Promise.reject('SDK not initialized');
@@ -188,8 +219,11 @@ export async function trackEvent(eventName, eventData = {}) {
 
         // Use the track function directly (not a method on SDK instance)
         // Note: track function requires SDK to be initialized with user email via setEmail
+        // NOTE: track import is commented out while SDK is disabled
         try {
-            await track(payload);
+            console.error('Iterable SDK: Cannot track - SDK imports are disabled. Set SDK_ENABLED = true and uncomment imports.');
+            return Promise.reject('SDK imports disabled');
+            // await track(payload);
             console.log('Iterable SDK: Event tracked:', eventName);
             console.log('Iterable SDK: Payload details:', {
                 eventName: payload.eventName,
@@ -230,6 +264,12 @@ export async function trackEvent(eventName, eventData = {}) {
  * @returns {Promise} - Returns promise that resolves on success
  */
 export async function updateUser(email, dataFields = {}, options = {}) {
+    // SDK is disabled - return early
+    if (!SDK_ENABLED) {
+        console.log(`Iterable SDK: updateUser called for "${email}" but SDK is disabled`);
+        return Promise.resolve(); // Resolve (not reject) so UI doesn't break
+    }
+    
     if (!isIterableInitialized()) {
         console.warn('Iterable SDK: Not initialized. Cannot update user.');
         return Promise.reject('SDK not initialized');
@@ -257,7 +297,10 @@ export async function updateUser(email, dataFields = {}, options = {}) {
         }
 
         // Use the updateUser function directly (not a method on SDK instance)
-        await sdkUpdateUser(payload);
+        // NOTE: sdkUpdateUser import is commented out while SDK is disabled
+        console.error('Iterable SDK: Cannot update user - SDK imports are disabled. Set SDK_ENABLED = true and uncomment imports.');
+        return Promise.reject('SDK imports disabled');
+        // await sdkUpdateUser(payload);
         console.log('Iterable SDK: User updated:', payload);
         
         // Show notification for demo purposes
@@ -292,6 +335,12 @@ export async function updateUser(email, dataFields = {}, options = {}) {
  * @returns {Promise} - Returns promise that resolves on success
  */
 export async function updateSubscription(email, subscriptionGroupId = null, subscribe = null, unsubscribedChannels = []) {
+    // SDK is disabled - return early
+    if (!SDK_ENABLED) {
+        console.log(`Iterable SDK: updateSubscription called but SDK is disabled`);
+        return Promise.resolve(); // Resolve (not reject) so UI doesn't break
+    }
+    
     if (!isIterableInitialized()) {
         console.warn('Iterable SDK: Not initialized. Cannot update subscriptions.');
         return Promise.reject('SDK not initialized');
@@ -309,7 +358,10 @@ export async function updateSubscription(email, subscriptionGroupId = null, subs
             unsubscribedChannelIds: unsubscribedChannels
         };
         
-        await sdkUpdateSubscriptions(payload);
+        // NOTE: sdkUpdateSubscriptions import is commented out while SDK is disabled
+        console.error('Iterable SDK: Cannot update subscriptions - SDK imports are disabled. Set SDK_ENABLED = true and uncomment imports.');
+        return Promise.reject('SDK imports disabled');
+        // await sdkUpdateSubscriptions(payload);
         console.log(`Iterable SDK: Subscription updated via SDK for ${email}, unsubscribed channels:`, unsubscribedChannels);
         
         // Show notification for demo purposes

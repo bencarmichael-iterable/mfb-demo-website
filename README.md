@@ -1,6 +1,17 @@
-# ANZ Demo Website
+# Client Demo Website
 
 A landing page for demonstrations showcasing Iterable marketing automation capabilities.
+
+## ⚠️ Current Status
+
+**The Iterable Web SDK is currently DISABLED** until the website is re-skinned for the client.
+
+To re-enable the SDK:
+1. Open `iterable-config.js`
+2. Set `SDK_ENABLED = true`
+3. Uncomment the SDK imports at the top of the file
+4. Add your API key to `.env.local` as `VITE_ITERABLE_API_KEY=your_key_here`
+5. Run `npm install` to ensure dependencies are installed
 
 ## Getting Started
 
@@ -12,8 +23,8 @@ A landing page for demonstrations showcasing Iterable marketing automation capab
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/bencarmichael-iterable/ANZ-Demo-Website.git
-   cd ANZ-Demo-Website
+   git clone https://github.com/bencarmichael-iterable/mfb-demo-website.git
+   cd mfb-demo-website
    ```
 
 2. **Install dependencies**
@@ -21,7 +32,7 @@ A landing page for demonstrations showcasing Iterable marketing automation capab
    npm install
    ```
 
-3. **Set up environment variables**
+3. **Set up environment variables (when SDK is re-enabled)**
    
    Create a `.env.local` file in the project root:
    ```bash
