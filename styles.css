@@ -501,52 +501,54 @@ body {
     background-color: var(--color-bg-light);
 }
 
-.steps {
+.how-it-works-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: var(--spacing-lg);
     margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
 }
 
-.step {
+.how-it-works-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    padding: var(--spacing-md);
+}
+
+.how-it-works-icon {
+    width: 280px;
+    height: 280px;
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.how-it-works-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.how-it-works-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
+    text-align: center;
+}
+
+.how-it-works-description {
+    color: var(--color-text-light);
+    line-height: 1.6;
+    text-align: center;
 }
 
 .how-it-works-cta {
     text-align: center;
     margin-top: var(--spacing-lg);
-}
-
-.step-icon {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    background-color: #09463A;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto var(--spacing-sm);
-    padding: 25px;
-}
-
-.step-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.step-title {
-    font-size: var(--font-size-xl);
-    font-weight: 600;
-    margin-bottom: var(--spacing-sm);
-    color: var(--color-text);
-}
-
-.step-description {
-    color: var(--color-text-light);
-    line-height: 1.6;
 }
 
 /* ============================================
@@ -1297,7 +1299,7 @@ body {
         grid-template-columns: 1fr;
     }
     
-    .steps {
+    .how-it-works-grid {
         grid-template-columns: 1fr;
     }
     
@@ -1929,24 +1931,24 @@ body {
         width: 100%;
     }
     
-    .steps {
+    .how-it-works-grid {
         grid-template-columns: repeat(2, 1fr);
     }
     
-    .step-icon {
-        width: 140px;
-        height: 140px;
+    .how-it-works-icon {
+        width: 200px;
+        height: 200px;
     }
 }
 
 @media (max-width: 480px) {
-    .steps {
+    .how-it-works-grid {
         grid-template-columns: 1fr;
     }
     
-    .step-icon {
-        width: 120px;
-        height: 120px;
+    .how-it-works-icon {
+        width: 180px;
+        height: 180px;
     }
 }
 
