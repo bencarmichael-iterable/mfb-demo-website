@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="My Food Bag - Sign up for your meal delivery subscription"
+    />
+    <title>My Food Bag - Sign Up</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Brand Selection Bar -->
+    <div class="brand-selection-bar">
+      <div class="container">
+        <div class="brand-selection-content">
+          <a href="index.html" class="brand-option active">
+            <div class="brand-icon brand-icon-mfb">
+              <img src="https://images.squarespace-cdn.com/content/v1/67c92a00bb19bc22c14bc5be/5419028c-d406-4ba9-93be-56eb95eeaf33/My+Food+Bag+White+Logo.png" alt="My Food Bag" />
+            </div>
+            <span>My Food Bag</span>
+          </a>
+          <a href="#" class="brand-option">
+            <div class="brand-icon brand-icon-fresh">
+              <img src="https://www.myfoodbag.co.nz/wp-content/uploads/2023/08/Fresh-Start-logo-1.png" alt="Fresh Start" />
+            </div>
+            <span>Fresh Start</span>
+          </a>
+          <a href="#" class="brand-option">
+            <div class="brand-icon brand-icon-bargain">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-sK5i65euMAsUy0XQF5mUaXb_14wQ_rQubA&s" alt="Bargain Box" />
+            </div>
+            <span>Bargain Box</span>
+          </a>
+          <a href="#" class="brand-option brand-option-shop">
+            <div class="brand-icon brand-icon-shop">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9zOnmRd6rqqy1cgKWAWCT7VvVW9ZnQP3s6g&s" alt="Shop" />
+            </div>
+            <span>Shop</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <a href="index.html">
+              <img
+                src="https://investors.myfoodbag.co.nz/FormBuilder/_Resource/_module/E3k-tAFXQ02vXznnaJo7HA/img/logo.png"
+                alt="My Food Bag Logo"
+                class="logo-img"
+              />
+            </a>
+          </div>
+          <nav class="nav" id="mainNav">
+            <a href="index.html" class="nav-link">Back to Home</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Checkout Progress Indicator -->
+    <div class="checkout-progress">
+      <div class="container">
+        <div class="progress-steps">
+          <div class="progress-step active" data-step="1">
+            <div class="step-number">1</div>
+            <div class="step-label">SIGN UP</div>
+          </div>
+          <div class="progress-step" data-step="2">
+            <div class="step-number">2</div>
+            <div class="step-label">DELIVERY</div>
+          </div>
+          <div class="progress-step" data-step="3">
+            <div class="step-number">3</div>
+            <div class="step-label">PAYMENT</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Checkout Content -->
+    <div class="checkout-container">
+      <div class="checkout-wrapper">
+        <div class="checkout-layout">
+          <!-- Left Column: Forms -->
+          <div class="checkout-main">
+            <!-- Section 1: Let's get you sorted (Email) -->
+            <div class="checkout-section active" id="section1">
+              <div class="section-header" id="section1Header">
+                <div class="section-icon" id="section1Icon">✓</div>
+                <h2 class="section-title">Let's get you sorted</h2>
+              </div>
+              
+              <div class="section-content" id="section1Content">
+                <form class="checkout-form" id="signupForm">
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email address" />
+                  </div>
+                  
+                  <button type="submit" class="btn btn-primary btn-large btn-full">Continue</button>
+                  
+                  <p class="form-disclaimer">
+                    By continuing I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy policy</a> and authorise the start of my recurring subscription.
+                  </p>
+                </form>
+              </div>
+            </div>
+
+            <!-- Section 2: Your delivery details -->
+            <div class="checkout-section" id="section2" style="display: none;">
+              <div class="section-header" id="section2Header">
+                <div class="section-icon" id="section2Icon">✓</div>
+                <h2 class="section-title">Your delivery details</h2>
+              </div>
+
+              <div class="section-content" id="section2Content">
+                <form class="checkout-form" id="deliveryForm">
+                  <div class="form-group">
+                    <label for="deliveryAddress">Delivery Address</label>
+                    <select id="deliveryAddress" name="deliveryAddress" required>
+                      <option value="">Select a delivery address...</option>
+                      <option value="2-smith-street">2 Smith Street, Balclutha, Balclutha 9230</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group" id="deliveryDateGroup" style="display: none;">
+                    <label for="deliveryDate">When would you like your first delivery?</label>
+                    <select id="deliveryDate" name="deliveryDate" required>
+                      <option value="">Select a delivery date...</option>
+                      <option value="mon-2nd-feb">Mon 2nd Feb 7am - 5pm</option>
+                      <option value="mon-9th-feb">Mon 9th Feb 7am - 5pm</option>
+                      <option value="mon-16th-feb">Mon 16th Feb 7am - 5pm</option>
+                    </select>
+                  </div>
+
+                  <div class="recipes-section" id="recipesSection" style="display: none;">
+                    <h3>Available Recipes</h3>
+                    <div class="recipes-carousel">
+                      <button class="carousel-btn carousel-prev" id="recipeCarouselPrev">‹</button>
+                      <div class="recipes-carousel-track" id="recipesCarouselTrack">
+                        <div class="recipe-card">
+                          <img src="https://recipe-images-cdn.mfb.nz/Large/R00073217001.jpeg/" alt="Ultimate Greek-Style Beef Nachos" />
+                          <h4>Ultimate Greek-Style Beef Nachos</h4>
+                        </div>
+                        <div class="recipe-card">
+                          <img src="https://recipe-images-cdn.mfb.nz/Large/R00073224001.jpeg/" alt="Lemongrass-Glazed Pork Sirloin" />
+                          <h4>Lemongrass-Glazed Pork Sirloin</h4>
+                        </div>
+                        <div class="recipe-card">
+                          <img src="https://recipe-images-cdn.mfb.nz/Large/R00073227001.jpeg/" alt="Low Carb Thai Yellow Chicken Curry" />
+                          <h4>Low Carb Thai Yellow Chicken Curry</h4>
+                        </div>
+                        <div class="recipe-card">
+                          <img src="https://recipe-images-cdn.mfb.nz/Large/R00073229001.jpeg/" alt="Low Carb Creamy Mustard Chicken & Greens" />
+                          <h4>Low Carb Creamy Mustard Chicken & Greens</h4>
+                        </div>
+                      </div>
+                      <button class="carousel-btn carousel-next" id="recipeCarouselNext">›</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group" id="deliveryFrequencyGroup" style="display: none;">
+                    <label>How often would you like a delivery</label>
+                    <div class="radio-group">
+                      <label class="radio-option">
+                        <input type="radio" name="deliveryFrequency" value="weekly" checked />
+                        <span>Weekly</span>
+                      </label>
+                      <label class="radio-option">
+                        <input type="radio" name="deliveryFrequency" value="fortnightly" />
+                        <span>Fortnightly</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group" id="deliveryInstructionsGroup" style="display: none;">
+                    <label for="deliveryInstructions">Delivery Instructions</label>
+                    <textarea id="deliveryInstructions" name="deliveryInstructions" rows="3" placeholder="e.g. Please leave at the front door." maxlength="100"></textarea>
+                    <p class="form-help">Delivery Instructions are limited to 100 characters.</p>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary btn-large btn-full" id="deliveryContinueBtn" style="display: none;">Continue</button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Section 3: Tell us about you! -->
+            <div class="checkout-section" id="section3" style="display: none;">
+              <div class="section-header" id="section3Header">
+                <div class="section-icon" id="section3Icon">✓</div>
+                <h2 class="section-title">Tell us about you!</h2>
+              </div>
+
+              <div class="section-content" id="section3Content">
+                <form class="checkout-form" id="userInfoForm">
+                  <div class="form-group">
+                    <label for="firstName">First Name <span class="required">*</span></label>
+                    <input type="text" id="firstName" name="firstName" required placeholder="Enter your first name" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="lastName">Last Name <span class="required">*</span></label>
+                    <input type="text" id="lastName" name="lastName" required placeholder="Enter your last name" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="mobile">Mobile <span class="required">*</span></label>
+                    <input type="tel" id="mobile" name="mobile" required placeholder="Enter your mobile number" />
+                  </div>
+
+                  <div class="form-group">
+                    <label class="checkbox-option">
+                      <input type="checkbox" id="smsOptIn" name="smsOptIn" />
+                      <span>Yes, I would like to receive SMS offers & promotions</span>
+                    </label>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary btn-large btn-full" id="checkoutBtn">Submit Order</button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Feature Highlights - Always at bottom -->
+            <div class="feature-highlights-bottom">
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <img src="https://images.ctfassets.net/h5bq1gt24416/5auvEVOBkEqqOXTF4auxVn/2abd467ceef698f472049f1affd0b672/mfb-no-contracts.svg" alt="No Lock in Plans" />
+                </div>
+                <div class="feature-content">
+                  <h4>No Lock in Plans</h4>
+                  <p>Skip or cancel anytime before Monday midnight (excludes one off deliveries)</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <img src="https://images.ctfassets.net/h5bq1gt24416/10Iu9HZOOJgZCZfm3JogwD/dba062dcf907171b88cbd906ca462638/mfb-local.svg" alt="Local Ingredients" />
+                </div>
+                <div class="feature-content">
+                  <h4>Local Ingredients</h4>
+                  <p>Sourced locally right here in New Zealand</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Subscription Summary -->
+          <div class="checkout-sidebar">
+            <div class="subscription-image">
+              <img src="https://images.ctfassets.net/h5bq1gt24416/4TsFuFgP0Y4vQwGuh1LWtO/d12e9a26f7b7205afff67dafc070a9de/MicrosoftTeams-image__1_.png?h=500" alt="My Food Bag" />
+            </div>
+            
+            <div class="subscription-summary">
+              <h3>Your Subscription</h3>
+              
+              <div class="subscription-details">
+                <div class="subscription-item">
+                  <span class="item-name" id="subscriptionPlanName">My Choice (5 Nights For 2)</span>
+                  <span class="item-price" id="subscriptionPrice">$176.99</span>
+                </div>
+                <div class="subscription-item">
+                  <span class="item-name">Shipping</span>
+                  <span class="item-price">$0.00</span>
+                </div>
+              </div>
+
+              <div class="promo-section">
+                <div class="promo-input-group">
+                  <input type="text" id="promoCode" placeholder="Enter a promo, referra" />
+                  <span class="promo-check">✓</span>
+                </div>
+                <button class="btn btn-secondary btn-small" id="applyPromo">Apply</button>
+                <p class="promo-success" id="promoSuccess" style="display: none;">Discount successfully applied!</p>
+              </div>
+
+              <div class="discounts-section">
+                <h4>Great, here are your discounts!</h4>
+                <div class="discount-item">
+                  <span class="discount-icon">🚚</span>
+                  <span class="discount-text">This delivery</span>
+                  <span class="discount-value">50% off</span>
+                </div>
+                <div class="discount-item">
+                  <span class="discount-icon">🚚</span>
+                  <span class="discount-text">2nd delivery</span>
+                  <span class="discount-value">25% off</span>
+                </div>
+                <div class="discount-item">
+                  <span class="discount-icon">🚚</span>
+                  <span class="discount-text">3rd delivery</span>
+                  <span class="discount-value">30% off</span>
+                </div>
+              </div>
+
+              <div class="subscription-total">
+                <div class="total-row">
+                  <span>Promo (50% off)</span>
+                  <span class="total-discount" id="totalDiscount">- $88.50</span>
+                </div>
+                <div class="total-row total-final">
+                  <span>Total</span>
+                  <span class="total-amount" id="totalAmount">$88.49</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="checkout.js"></script>
+  </body>
+</html>

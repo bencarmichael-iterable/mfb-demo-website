@@ -741,6 +741,10 @@ if (document.readyState === 'loading') {
 const continuePlanBtn = document.getElementById('continuePlanBtn');
 if (continuePlanBtn) {
     continuePlanBtn.addEventListener('click', () => {
+        // Get selected preference
+        const activePreferenceCard = document.querySelector('.recipe-preference-card.active');
+        const selectedPreference = activePreferenceCard ? activePreferenceCard.dataset.preference : 'all';
+        
         // Track event if user is signed in
         const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
         if (userEmail && isIterableInitialized()) {
@@ -749,13 +753,19 @@ if (continuePlanBtn) {
                 dataFields: {
                     numberOfPeople: selectedPeople,
                     mealsPerWeek: selectedMeals,
-                    estimatedPrice: selectedPeople * selectedMeals * 5.75
+                    estimatedPrice: selectedPeople * selectedMeals * 5.75,
+                    preference: selectedPreference
                 },
                 createNewFields: true
             });
         }
-        // Note: Sign up form removed - this button can trigger a separate signup flow
-        console.log('Get Started clicked - would trigger signup flow');
+        
+        // Redirect to checkout with plan data
+        const checkoutUrl = new URL('checkout.html', window.location.origin);
+        checkoutUrl.searchParams.set('people', selectedPeople);
+        checkoutUrl.searchParams.set('meals', selectedMeals);
+        checkoutUrl.searchParams.set('preference', selectedPreference);
+        window.location.href = checkoutUrl.toString();
     });
 }
 
