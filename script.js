@@ -14,6 +14,66 @@ import {
     config as iterableConfig
 } from './iterable-config.js';
 
+// Helper function to capitalize string values in dataFields
+// Excludes fields that should preserve original casing (email, names, addresses, phone, dates, numbers)
+function capitalizeDataFields(dataFields) {
+    const excludeFromCapitalization = [
+        'email',
+        'firstName',
+        'lastName',
+        'phoneNumber',
+        'address.street',
+        'address.suburb',
+        'address.region',
+        'address.postcode',
+        'order.deliveryDate',
+        'order.deliveryTime',
+        'order.deadlineDate',
+        'order.deliveryInstructions',
+        'order.price',
+        'order.discount',
+        'order.savings',
+        'numberOfPeople',
+        'mealsPerWeek',
+        'timeSpentSeconds',
+        'estimatedPrice',
+        'pageUrl',
+        'preference',
+        'preferenceName',
+        'buttonId',
+        'buttonText',
+        'pageCategory',
+        'pageSubCategory'
+    ];
+    
+    const capitalized = {};
+    
+    for (const [key, value] of Object.entries(dataFields)) {
+        // Skip if key is in exclusion list
+        if (excludeFromCapitalization.includes(key)) {
+            capitalized[key] = value;
+            continue;
+        }
+        
+        // Skip if value is not a string
+        if (typeof value !== 'string') {
+            capitalized[key] = value;
+            continue;
+        }
+        
+        // Skip if value is empty
+        if (!value || value.trim() === '') {
+            capitalized[key] = value;
+            continue;
+        }
+        
+        // Capitalize: first letter uppercase, rest lowercase
+        capitalized[key] = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    }
+    
+    return capitalized;
+}
+
 // Helper function to show API notifications (enhanced for demo purposes)
 function showAPINotification(title, message, type = 'success', details = null) {
     // Create notification container
@@ -47,11 +107,11 @@ function showAPINotification(title, message, type = 'success', details = null) {
     
     notificationsContainer.appendChild(notificationEl);
     
-    // Auto-remove after delay
+    // Auto-remove after delay (5 seconds for all notifications)
     setTimeout(() => {
         notificationEl.classList.add('api-notification-hide');
         setTimeout(() => notificationEl.remove(), 300);
-    }, type === 'success' ? 4000 : 5000);
+    }, 5000);
 }
 
 // Make function globally available for iterable-config.js
@@ -92,21 +152,31 @@ function trackPageView() {
     
     console.log('📊 Page Viewed: Checking page:', pageName);
     
-    // Don't track for Home page
-    if (pageName === 'home' || pageName === 'index') {
-        console.log('📊 Page Viewed: Home page, skipping');
+    // Only track Page Viewed on "How it Works" page
+    if (pageName !== 'how-it-works') {
+        console.log('📊 Page Viewed: Not on How it Works page, skipping');
         return;
     }
     
     // Calculate time spent on page
     const timeSpentSeconds = Math.round((Date.now() - pageLoadTime) / 1000);
     
-    // Determine page category and subcategory
+    // Determine page category and subcategory for My Food Bag site
     let pageCategory = 'General';
     let pageSubCategory = '';
     
-    if (['data-capture', 'personalisation', 'automation', 'analytics'].includes(pageName)) {
-        pageCategory = 'Features';
+    // Map page names to categories
+    if (pageName === 'home' || pageName === 'index' || pageName === '') {
+        pageCategory = 'Homepage';
+        pageSubCategory = 'Landing Page';
+    } else if (pageName === 'checkout') {
+        pageCategory = 'Checkout';
+        pageSubCategory = 'Sign Up Flow';
+    } else if (pageName === 'how-it-works') {
+        pageCategory = 'Information';
+        pageSubCategory = 'How it Works';
+    } else {
+        pageCategory = 'General';
         pageSubCategory = pageName;
     }
     
@@ -140,6 +210,26 @@ function trackPageView() {
         createNewFields: true
     }).then(() => {
         console.log('✅ Page Viewed: Event tracked successfully');
+        
+        // Store notification info in localStorage so it persists even if user navigates away
+        const notificationInfo = {
+            title: 'Page Viewed Event Tracked',
+            message: `Page Viewed event has been sent to Iterable for "${pageSubCategory || pageCategory}" page.`,
+            type: 'success',
+            details: `Time spent: ${timeSpentSeconds}s | URL: ${window.location.href}`,
+            timestamp: Date.now()
+        };
+        localStorage.setItem('iterable_pending_pageview_notification', JSON.stringify(notificationInfo));
+        
+        // Show notification immediately
+        if (window.showAPINotification) {
+            window.showAPINotification(
+                notificationInfo.title,
+                notificationInfo.message,
+                notificationInfo.type,
+                notificationInfo.details
+            );
+        }
     }).catch(err => {
         console.error('❌ Page Viewed: Failed to track page view:', err);
         pageViewTracked = false; // Allow retry on error
@@ -234,9 +324,6 @@ function updateUIForSignInState(isSignedIn, email = '') {
         if (userMenu) {
             userMenu.style.display = 'flex';
         }
-        if (signupLink) {
-            signupLink.style.display = 'none';
-        }
     } else {
         // Show logged-out UI
         if (userPanel) {
@@ -247,9 +334,6 @@ function updateUIForSignInState(isSignedIn, email = '') {
         }
         if (userMenu) {
             userMenu.style.display = 'none';
-        }
-        if (signupLink) {
-            signupLink.style.display = 'inline-block';
         }
     }
 }
@@ -297,7 +381,6 @@ const userDisplayName = document.getElementById('userDisplayName');
 const userMenu = document.getElementById('userMenu');
 const userMenuEmail = document.getElementById('userMenuEmail');
 const headerLogoutBtn = document.getElementById('headerLogoutBtn');
-const signupLink = document.getElementById('signupLink');
 
 // Hide auth UI elements initially to prevent flicker, then restore state
 async function initializeAuthUI() {
@@ -315,18 +398,46 @@ async function initializeAuthUI() {
 
 // Check for and show pending page view notification (from previous page)
 function showPendingPageViewNotification() {
+    // Check for Page Viewed notification (persists across navigation)
+    const pendingNotification = localStorage.getItem('iterable_pending_pageview_notification');
+    if (pendingNotification) {
+        try {
+            const notificationInfo = JSON.parse(pendingNotification);
+            
+            // Show notification regardless of time (it persists until shown)
+            if (window.showAPINotification) {
+                window.showAPINotification(
+                    notificationInfo.title,
+                    notificationInfo.message,
+                    notificationInfo.type,
+                    notificationInfo.details
+                );
+            }
+            
+            // Keep notification in localStorage so it can be shown again if needed
+            // Only remove if user explicitly wants to clear it, or after a long time
+            const timeSince = Date.now() - notificationInfo.timestamp;
+            if (timeSince > 300000) { // Remove after 5 minutes
+                localStorage.removeItem('iterable_pending_pageview_notification');
+            }
+        } catch (error) {
+            console.error('Error showing pending page view notification:', error);
+            localStorage.removeItem('iterable_pending_pageview_notification');
+        }
+    }
+    
+    // Also check for old page view info (for backward compatibility)
     const pendingPageView = localStorage.getItem('iterable_pending_pageview');
     if (pendingPageView) {
         try {
             const pageViewInfo = JSON.parse(pendingPageView);
             const timeSince = Math.round((Date.now() - pageViewInfo.timestamp) / 1000);
             
-            // Only show if it's recent (within last 5 seconds)
-            if (timeSince < 5) {
+            if (timeSince < 60) { // Only show if less than 60 seconds ago
                 const pageInfo = pageViewInfo.pageName;
                 const details = `${pageInfo} page | Time spent: ${pageViewInfo.timeSpent}s`;
                 
-                if (typeof window !== 'undefined' && window.showAPINotification) {
+                if (window.showAPINotification) {
                     window.showAPINotification(
                         'Page Viewed Event',
                         `Previous page view tracked and sent to Iterable`,
@@ -336,7 +447,6 @@ function showPendingPageViewNotification() {
                 }
             }
             
-            // Clear the pending notification
             localStorage.removeItem('iterable_pending_pageview');
         } catch (error) {
             console.error('Error showing pending page view notification:', error);
@@ -346,14 +456,31 @@ function showPendingPageViewNotification() {
 }
 
 // Initialize auth UI on page load (after DOM elements are defined)
+// Check if user is already logged in on page load and update UI
+function checkLoggedInStateOnLoad() {
+    const email = localStorage.getItem('iterable_user_email');
+    const firstName = localStorage.getItem('iterable_user_firstName');
+    
+    if (email && firstName && isIterableInitialized()) {
+        const loginBtn = document.getElementById('loginBtn');
+        if (loginBtn) {
+            loginBtn.textContent = `Hi, ${firstName}`;
+            loginBtn.classList.add('logged-in');
+            loginBtn.style.cursor = 'default';
+        }
+    }
+}
+
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         initializeAuthUI();
+        checkLoggedInStateOnLoad();
         // Show pending page view notification after a short delay
         setTimeout(showPendingPageViewNotification, 500);
     });
 } else {
     initializeAuthUI();
+    checkLoggedInStateOnLoad();
     setTimeout(showPendingPageViewNotification, 500);
 }
 
@@ -395,21 +522,46 @@ if (loginForm) {
             // Initialize Iterable SDK with user email (now async - awaits setEmail)
             const sdk = await initializeIterable(email);
             
-            if (!sdk) {
-                throw new Error('Failed to initialize SDK');
-            }
-            
             // Store email in localStorage for persistence
             localStorage.setItem('iterable_user_email', email);
             
-            // Track User Login event
-            await trackEvent('User Login', {
-                email: email,
-                dataFields: {
-                    channel: 'website'
-                },
-                createNewFields: true
-            });
+            // Track User Login event (only if SDK is initialized)
+            if (sdk && isIterableInitialized()) {
+                try {
+                    const loginDataFields = capitalizeDataFields({
+                        channel: 'Website'
+                    });
+                    await trackEvent('User Login', {
+                        email: email,
+                        dataFields: loginDataFields,
+                        createNewFields: true
+                    });
+                } catch (error) {
+                    console.warn('Could not track login event:', error);
+                }
+            } else {
+                // SDK is disabled or not initialized - show warning but allow login
+                if (window.showAPINotification) {
+                    window.showAPINotification(
+                        'SDK Disabled',
+                        'Iterable SDK is currently disabled. Login will work but events will not be tracked.',
+                        'error',
+                        'Enable SDK in iterable-config.js to track events'
+                    );
+                }
+            }
+            
+            // Store firstName if available
+            const firstName = localStorage.getItem('iterable_user_firstName');
+            if (firstName) {
+                // Update header to show "Hi, {{firstName}}"
+                const loginBtn = document.getElementById('loginBtn');
+                if (loginBtn) {
+                    loginBtn.textContent = `Hi, ${firstName}`;
+                    loginBtn.classList.add('logged-in');
+                    loginBtn.style.cursor = 'default';
+                }
+            }
             
             // Update UI
             updateUIForSignInState(true, email);
@@ -422,8 +574,10 @@ if (loginForm) {
             // Scroll to top to show user panel
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            // Track page view now that user is signed in
-            trackPageView();
+            // Track page view now that user is signed in (only if SDK initialized)
+            if (isIterableInitialized()) {
+                trackPageView();
+            }
             
         } catch (error) {
             console.error('Login error:', error);
@@ -574,7 +728,7 @@ if (signupForm) {
             const device = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'mobile' : 'desktop';
             
             console.log('📊 Sign Up: Tracking My Food Bag Sign Up event...', {
-                channel: 'website',
+                channel: 'Website',
                 device: device,
                 firstName: formData.firstName,
                 lastName: formData.lastName,
@@ -582,18 +736,19 @@ if (signupForm) {
                 numberOfPeople: formData.numberOfPeople,
                 mealsPerWeek: formData.mealsPerWeek
             });
+            const signUpDataFields = capitalizeDataFields({
+                channel: 'Website',
+                device: device,
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                signupChannel: 'Website',
+                recipePreferences: formData.preferences,
+                numberOfPeople: formData.numberOfPeople,
+                mealsPerWeek: formData.mealsPerWeek
+            });
             await trackEvent('My Food Bag Sign Up', {
                 email: formData.email,
-                dataFields: {
-                    channel: 'website',
-                    device: device,
-                    firstName: formData.firstName,
-                    lastName: formData.lastName,
-                    signupChannel: 'website',
-                    recipePreferences: formData.preferences,
-                    numberOfPeople: formData.numberOfPeople,
-                    mealsPerWeek: formData.mealsPerWeek
-                },
+                dataFields: signUpDataFields,
                 createNewFields: true
             });
             console.log('✅ Sign Up: Event tracked successfully');
@@ -641,12 +796,13 @@ recipePreferenceCards.forEach(card => {
         // Track event if user is signed in
         const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
         if (userEmail && isIterableInitialized()) {
+            const preferenceDataFields = capitalizeDataFields({
+                preference: preference,
+                preferenceName: card.querySelector('h4').textContent
+            });
             trackEvent('Recipe Preference Selected', {
                 email: userEmail,
-                dataFields: {
-                    preference: preference,
-                    preferenceName: card.querySelector('h4').textContent
-                },
+                dataFields: preferenceDataFields,
                 createNewFields: true
             });
         }
@@ -666,11 +822,12 @@ peopleOptions.forEach(option => {
         // Track event if user is signed in
         const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
         if (userEmail && isIterableInitialized()) {
+            const peopleDataFields = capitalizeDataFields({
+                numberOfPeople: selectedPeople
+            });
             trackEvent('Plan People Selected', {
                 email: userEmail,
-                dataFields: {
-                    numberOfPeople: selectedPeople
-                },
+                dataFields: peopleDataFields,
                 createNewFields: true
             });
         }
@@ -690,11 +847,12 @@ mealsOptions.forEach(option => {
         // Track event if user is signed in
         const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
         if (userEmail && isIterableInitialized()) {
+            const mealsDataFields = capitalizeDataFields({
+                mealsPerWeek: selectedMeals
+            });
             trackEvent('Plan Meals Selected', {
                 email: userEmail,
-                dataFields: {
-                    mealsPerWeek: selectedMeals
-                },
+                dataFields: mealsDataFields,
                 createNewFields: true
             });
         }
@@ -748,14 +906,15 @@ if (continuePlanBtn) {
         // Track event if user is signed in
         const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
         if (userEmail && isIterableInitialized()) {
+            const continueDataFields = capitalizeDataFields({
+                numberOfPeople: selectedPeople,
+                mealsPerWeek: selectedMeals,
+                estimatedPrice: selectedPeople * selectedMeals * 5.75,
+                preference: selectedPreference
+            });
             trackEvent('Plan Continue Clicked', {
                 email: userEmail,
-                dataFields: {
-                    numberOfPeople: selectedPeople,
-                    mealsPerWeek: selectedMeals,
-                    estimatedPrice: selectedPeople * selectedMeals * 5.75,
-                    preference: selectedPreference
-                },
+                dataFields: continueDataFields,
                 createNewFields: true
             });
         }
@@ -790,9 +949,10 @@ if (buildMenuBtn) {
         // Track event if user is signed in
         const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
         if (userEmail && isIterableInitialized()) {
+            const buildMenuDataFields = capitalizeDataFields({});
             trackEvent('Build Menu Clicked', {
                 email: userEmail,
-                dataFields: {},
+                dataFields: buildMenuDataFields,
                 createNewFields: true
             });
         }
@@ -820,12 +980,13 @@ ctaButtons.forEach(btn => {
             // Track event if user is signed in
             const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
             if (userEmail && isIterableInitialized()) {
+                const ctaDataFields = capitalizeDataFields({
+                    buttonId: btn.id || 'unknown',
+                    buttonText: btn.textContent
+                });
                 trackEvent('CTA Clicked', {
                     email: userEmail,
-                    dataFields: {
-                        buttonId: btn.id || 'unknown',
-                        buttonText: btn.textContent
-                    },
+                    dataFields: ctaDataFields,
                     createNewFields: true
                 });
             }
