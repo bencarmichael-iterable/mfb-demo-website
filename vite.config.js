@@ -11,7 +11,10 @@ export default defineConfig({
         'automation': './automation.html',
         'analytics': './analytics.html',
         'custom-event': './custom-event.html',
-        'update-profile': './update-profile.html'
+        'update-profile': './update-profile.html',
+        'checkout': './checkout.html',
+        'how-it-works': './how-it-works.html',
+        'subscription-success': './subscription-success.html'
       }
     }
   },
