@@ -378,7 +378,7 @@ const loginForm = document.getElementById('loginForm');
 const userPanel = document.getElementById('userPanel');
 const logoutBtn = document.getElementById('logoutBtn');
 const userDisplayName = document.getElementById('userDisplayName');
-const userMenu = document.getElementById('userMenu');
+const userMenu = document.getElementById('userDropdown');
 const userMenuEmail = document.getElementById('userMenuEmail');
 const headerLogoutBtn = document.getElementById('headerLogoutBtn');
 
@@ -525,21 +525,8 @@ if (loginForm) {
             // Store email in localStorage for persistence
             localStorage.setItem('iterable_user_email', email);
             
-            // Track User Login event (only if SDK is initialized)
-            if (sdk && isIterableInitialized()) {
-                try {
-                    const loginDataFields = capitalizeDataFields({
-                        channel: 'Website'
-                    });
-                    await trackEvent('User Login', {
-                        email: email,
-                        dataFields: loginDataFields,
-                        createNewFields: true
-                    });
-                } catch (error) {
-                    console.warn('Could not track login event:', error);
-                }
-            } else {
+            // Check if SDK is initialized for UI feedback
+            if (!sdk || !isIterableInitialized()) {
                 // SDK is disabled or not initialized - show warning but allow login
                 if (window.showAPINotification) {
                     window.showAPINotification(
@@ -723,36 +710,6 @@ if (signupForm) {
             }
             console.log('✅ Sign Up: Subscription preferences updated');
             
-            // Track Sign Up event for My Food Bag
-            // Determine device type (simplified - could be enhanced)
-            const device = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'mobile' : 'desktop';
-            
-            console.log('📊 Sign Up: Tracking My Food Bag Sign Up event...', {
-                channel: 'Website',
-                device: device,
-                firstName: formData.firstName,
-                lastName: formData.lastName,
-                preferences: formData.preferences,
-                numberOfPeople: formData.numberOfPeople,
-                mealsPerWeek: formData.mealsPerWeek
-            });
-            const signUpDataFields = capitalizeDataFields({
-                channel: 'Website',
-                device: device,
-                firstName: formData.firstName,
-                lastName: formData.lastName,
-                signupChannel: 'Website',
-                recipePreferences: formData.preferences,
-                numberOfPeople: formData.numberOfPeople,
-                mealsPerWeek: formData.mealsPerWeek
-            });
-            await trackEvent('My Food Bag Sign Up', {
-                email: formData.email,
-                dataFields: signUpDataFields,
-                createNewFields: true
-            });
-            console.log('✅ Sign Up: Event tracked successfully');
-            
             // Auto sign in - update UI
             updateUIForSignInState(true, formData.email);
             // Update display name if we have firstName
@@ -792,20 +749,6 @@ recipePreferenceCards.forEach(card => {
         
         const preference = card.dataset.preference;
         console.log('Recipe preference selected:', preference);
-        
-        // Track event if user is signed in
-        const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
-        if (userEmail && isIterableInitialized()) {
-            const preferenceDataFields = capitalizeDataFields({
-                preference: preference,
-                preferenceName: card.querySelector('h4').textContent
-            });
-            trackEvent('Recipe Preference Selected', {
-                email: userEmail,
-                dataFields: preferenceDataFields,
-                createNewFields: true
-            });
-        }
     });
 });
 
@@ -818,19 +761,6 @@ peopleOptions.forEach(option => {
         option.classList.add('active');
         selectedPeople = parseInt(option.dataset.people);
         updateWeeklyPrice();
-        
-        // Track event if user is signed in
-        const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
-        if (userEmail && isIterableInitialized()) {
-            const peopleDataFields = capitalizeDataFields({
-                numberOfPeople: selectedPeople
-            });
-            trackEvent('Plan People Selected', {
-                email: userEmail,
-                dataFields: peopleDataFields,
-                createNewFields: true
-            });
-        }
     });
 });
 
@@ -843,19 +773,6 @@ mealsOptions.forEach(option => {
         option.classList.add('active');
         selectedMeals = parseInt(option.dataset.meals);
         updateWeeklyPrice();
-        
-        // Track event if user is signed in
-        const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
-        if (userEmail && isIterableInitialized()) {
-            const mealsDataFields = capitalizeDataFields({
-                mealsPerWeek: selectedMeals
-            });
-            trackEvent('Plan Meals Selected', {
-                email: userEmail,
-                dataFields: mealsDataFields,
-                createNewFields: true
-            });
-        }
     });
 });
 
@@ -903,22 +820,6 @@ if (continuePlanBtn) {
         const activePreferenceCard = document.querySelector('.recipe-preference-card.active');
         const selectedPreference = activePreferenceCard ? activePreferenceCard.dataset.preference : 'all';
         
-        // Track event if user is signed in
-        const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
-        if (userEmail && isIterableInitialized()) {
-            const continueDataFields = capitalizeDataFields({
-                numberOfPeople: selectedPeople,
-                mealsPerWeek: selectedMeals,
-                estimatedPrice: selectedPeople * selectedMeals * 5.75,
-                preference: selectedPreference
-            });
-            trackEvent('Plan Continue Clicked', {
-                email: userEmail,
-                dataFields: continueDataFields,
-                createNewFields: true
-            });
-        }
-        
         // Redirect to checkout with plan data
         const checkoutUrl = new URL('checkout.html', window.location.origin);
         checkoutUrl.searchParams.set('people', selectedPeople);
@@ -946,16 +847,6 @@ if (cancelPlanBtn) {
 const buildMenuBtn = document.getElementById('buildMenuBtn');
 if (buildMenuBtn) {
     buildMenuBtn.addEventListener('click', () => {
-        // Track event if user is signed in
-        const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
-        if (userEmail && isIterableInitialized()) {
-            const buildMenuDataFields = capitalizeDataFields({});
-            trackEvent('Build Menu Clicked', {
-                email: userEmail,
-                dataFields: buildMenuDataFields,
-                createNewFields: true
-            });
-        }
         // Note: Sign up form removed - this button can trigger a separate signup flow
         console.log('Build Menu clicked - would trigger signup flow');
     });
@@ -975,20 +866,6 @@ ctaButtons.forEach(btn => {
             const signupSection = document.getElementById('signup');
             if (signupSection) {
                 signupSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-            
-            // Track event if user is signed in
-            const userEmail = iterableConfig.currentUserEmail || localStorage.getItem('iterable_user_email');
-            if (userEmail && isIterableInitialized()) {
-                const ctaDataFields = capitalizeDataFields({
-                    buttonId: btn.id || 'unknown',
-                    buttonText: btn.textContent
-                });
-                trackEvent('CTA Clicked', {
-                    email: userEmail,
-                    dataFields: ctaDataFields,
-                    createNewFields: true
-                });
             }
         });
     }
