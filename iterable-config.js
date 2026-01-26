@@ -29,7 +29,8 @@ let iterableConfig = {
     apiKey: API_KEY || null,
     isInitialized: false,
     sdkInstance: null,
-    currentUserEmail: null
+    currentUserEmail: null,
+    logoutInProgress: false // Flag to prevent re-initialization immediately after logout
 };
 
 /**
@@ -44,6 +45,12 @@ export async function initializeIterable(email, options = {}) {
         return null;
     }
     
+    // Check if logout is in progress - prevent initialization during/after logout
+    if (iterableConfig.logoutInProgress) {
+        console.warn('Iterable SDK: Initialization blocked - logout in progress');
+        return null;
+    }
+    
     // Check API key first
     if (!iterableConfig.apiKey) {
         console.error('Iterable SDK: API key not found. Check .env.local or Netlify environment variables.');
@@ -54,6 +61,14 @@ export async function initializeIterable(email, options = {}) {
     if (!email) {
         console.warn('Iterable SDK: Email required for initialization.');
         return null;
+    }
+
+    // If already initialized for a different user, reset first
+    if (iterableConfig.isInitialized && iterableConfig.currentUserEmail !== email) {
+        console.log('Iterable SDK: Already initialized for different user. Resetting...');
+        resetIterable();
+        // Wait a moment for reset to complete
+        await new Promise(resolve => setTimeout(resolve, 100));
     }
 
     if (iterableConfig.isInitialized && iterableConfig.currentUserEmail === email) {
@@ -125,15 +140,8 @@ export async function initializeIterable(email, options = {}) {
 
         console.log('Iterable SDK: Successfully initialized for', email);
         
-        // Show notification for demo purposes
-        if (typeof window !== 'undefined' && window.showAPINotification) {
-            window.showAPINotification(
-                'SDK Authenticated',
-                `Iterable Web SDK initialized for ${email}`,
-                'success',
-                'SDK ready to track events and update user profiles'
-            );
-        }
+        // Don't show notification here - notifications should only be shown during checkout flow
+        // This prevents notifications from appearing when restoring sign-in state on home page
         
         return sdk;
     } catch (error) {
@@ -154,6 +162,52 @@ export function getIterableSDK() {
  */
 export function isIterableInitialized() {
     return iterableConfig.isInitialized;
+}
+
+/**
+ * Helper function to convert dot-notation keys to nested objects
+ * Used by both updateUser and trackEvent to convert dot notation to nested structure
+ * Example: { 'account.boxName': 'value', 'address.street': '123 Main', 'order.deadlineDate': '2024-01-01' }
+ * Becomes: { account: { boxName: 'value' }, address: { street: '123 Main' }, order: { deadlineDate: '2024-01-01' } }
+ */
+function convertDotNotationToNested(dataFields) {
+    const nested = {};
+    
+    for (const [key, value] of Object.entries(dataFields)) {
+        if (key.includes('.')) {
+            // Split by dot and create nested structure
+            const parts = key.split('.');
+            let current = nested;
+            
+            // Navigate/create nested structure
+            for (let i = 0; i < parts.length - 1; i++) {
+                const part = parts[i];
+                if (!current[part]) {
+                    current[part] = {};
+                }
+                current = current[part];
+            }
+            
+            // Set the final value
+            current[parts[parts.length - 1]] = value;
+        } else {
+            // Non-nested key - if value is already an object, preserve it as nested object
+            // This handles cases where nested objects are passed directly (e.g., { account: { boxName: 'value' } })
+            if (value !== null && typeof value === 'object' && !Array.isArray(value) && !(value instanceof Date)) {
+                // Merge nested object if it already exists, otherwise set it
+                if (nested[key] && typeof nested[key] === 'object') {
+                    nested[key] = { ...nested[key], ...value };
+                } else {
+                    nested[key] = value;
+                }
+            } else {
+                // Primitive value, add directly
+                nested[key] = value;
+            }
+        }
+    }
+    
+    return nested;
 }
 
 /**
@@ -199,11 +253,14 @@ export async function trackEvent(eventName, eventData = {}) {
     }
 
     try {
+        // Convert dot-notation keys to nested objects in event dataFields (e.g., 'order.deadlineDate' -> order: { deadlineDate: ... })
+        const nestedDataFields = convertDotNotationToNested(eventData.dataFields || {});
+        
         // Prepare payload according to events/track structure
         // The track function expects: { eventName, dataFields, email?, userId?, ... }
         const payload = {
             eventName: eventName,
-            dataFields: eventData.dataFields || {}
+            dataFields: nestedDataFields
         };
 
         // Add email to payload (even though it's set on SDK, include it in payload too)
@@ -214,6 +271,14 @@ export async function trackEvent(eventName, eventData = {}) {
         if (eventData.createdAt) payload.createdAt = eventData.createdAt;
         if (eventData.campaignId) payload.campaignId = eventData.campaignId;
         if (eventData.templateId) payload.templateId = eventData.templateId;
+        
+        // Log conversion for debugging
+        if (Object.keys(eventData.dataFields || {}).some(key => key.includes('.'))) {
+            console.log('Iterable SDK: Converted event dataFields:', { 
+                original: eventData.dataFields, 
+                nested: nestedDataFields 
+            });
+        }
 
         // Use the track function directly (not a method on SDK instance)
         // Note: track function requires SDK to be initialized with user email via setEmail
@@ -276,24 +341,45 @@ export async function updateUser(email, dataFields = {}, options = {}) {
     }
 
     try {
-        // Prepare payload according to users/update structure
-        // The updateUser function expects: { email, dataFields, mergeNestedObjects?, createNewFields? }
+        // Convert dot-notation keys to nested objects (e.g., 'account.boxName' -> account: { boxName: ... })
+        const nestedDataFields = convertDotNotationToNested(dataFields);
+        
+        console.log('Iterable SDK: updateUser called with:', {
+            email,
+            originalDataFields: dataFields,
+            convertedDataFields: nestedDataFields,
+            options
+        });
+        
+        // Prepare payload according to Iterable Web SDK structure
+        // The SDK's updateUser function expects a single object with:
+        // { email, userId?, dataFields, preferUserId?, mergeNestedObjects?, createNewFields? }
+        // Note: phoneNumber stays in dataFields as a string of numbers only (no + sign)
         const payload = {
             email: email,
-            dataFields: dataFields
+            dataFields: nestedDataFields,
+            mergeNestedObjects: options.mergeNestedObjects !== undefined ? options.mergeNestedObjects : true,
+            createNewFields: options.createNewFields !== undefined ? options.createNewFields : true
         };
-
-        // Add optional fields
-        if (options.mergeNestedObjects !== undefined) {
-            payload.mergeNestedObjects = options.mergeNestedObjects;
+        
+        // Add optional fields if provided
+        if (options.userId) {
+            payload.userId = options.userId;
         }
-        if (options.createNewFields !== undefined) {
-            payload.createNewFields = options.createNewFields;
+        if (options.preferUserId !== undefined) {
+            payload.preferUserId = options.preferUserId;
         }
 
-        // Use the updateUser function directly (not a method on SDK instance)
+        // Use the updateUser function from SDK with the correct payload structure
         await sdkUpdateUser(payload);
-        console.log('Iterable SDK: User updated:', payload);
+        console.log('Iterable SDK: User updated successfully');
+        console.log('Iterable SDK: Payload sent:', payload);
+        console.log('Iterable SDK: Conversion details:', { 
+            original: dataFields, 
+            nested: nestedDataFields,
+            originalKeys: Object.keys(dataFields),
+            nestedKeys: Object.keys(nestedDataFields)
+        });
         
         // Show notification for demo purposes
         if (typeof window !== 'undefined' && window.showAPINotification) {
@@ -373,15 +459,46 @@ export async function updateSubscription(email, subscriptionGroupId = null, subs
 
 /**
  * Reset/Logout from Iterable SDK
+ * This completely stops SDK initialization and clears all user state
  */
 export function resetIterable() {
-    if (iterableConfig.sdkInstance && iterableConfig.sdkInstance.logout) {
-        iterableConfig.sdkInstance.logout();
+    console.log('🔄 Resetting Iterable SDK...');
+    
+    // Call SDK logout method if available
+    if (iterableConfig.sdkInstance) {
+        try {
+            if (iterableConfig.sdkInstance.logout && typeof iterableConfig.sdkInstance.logout === 'function') {
+                iterableConfig.sdkInstance.logout();
+                console.log('✅ SDK logout() called');
+            }
+            // Also try clearRefresh if available (clears any refresh tokens)
+            if (iterableConfig.sdkInstance.clearRefresh && typeof iterableConfig.sdkInstance.clearRefresh === 'function') {
+                iterableConfig.sdkInstance.clearRefresh();
+                console.log('✅ SDK clearRefresh() called');
+            }
+        } catch (error) {
+            console.warn('⚠️ Error during SDK logout:', error);
+            // Continue with reset even if logout fails
+        }
     }
+    
+    // Clear all SDK state
     iterableConfig.isInitialized = false;
     iterableConfig.sdkInstance = null;
     iterableConfig.currentUserEmail = null;
-    // Note: apiKey stays so we can reinitialize
+    
+    // Set a flag to prevent immediate re-initialization
+    // This prevents any ongoing initialization from completing after logout
+    iterableConfig.logoutInProgress = true;
+    
+    // Clear the flag after a short delay to allow normal initialization later
+    setTimeout(() => {
+        iterableConfig.logoutInProgress = false;
+        console.log('✅ SDK reset complete - ready for new initialization');
+    }, 1000);
+    
+    console.log('✅ Iterable SDK reset complete');
+    // Note: apiKey stays so we can reinitialize with a new user later
 }
 
 // Export config for debugging (read-only)
