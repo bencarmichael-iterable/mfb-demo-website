@@ -79,42 +79,49 @@ If you need the API key:
 ## Iterable Web SDK
 
 ### Status
-✅ Installed, ⏸️ Not Initialized
+✅ Installed and **ENABLED**
 
-The Iterable Web SDK has been installed and configured, but **it will NOT send any data** until:
-1. API key is provided
-2. You approve initialization
-3. `approveIterableInitialization()` is called
+The Iterable Web SDK is fully configured and active. It tracks:
+- User sign-ins and profile updates
+- Custom events (checkout, subscriptions, etc.)
+- Subscription preferences
 
 ### Current Setup
 
 - ✅ `@iterable/web-sdk` package installed
 - ✅ Configuration file created (`iterable-config.js`)
 - ✅ Build system configured (Vite)
-- ⏸️ SDK NOT initialized (waiting for approval)
+- ✅ SDK enabled (`SDK_ENABLED = true` in `iterable-config.js`)
 
 ### Files
 
-- `iterable-config.js` - SDK configuration and initialization functions
+- `iterable-config.js` - SDK configuration and exported functions
 - `script.js` - Main application logic (imports Iterable config)
+- `checkout.js` - Checkout flow with Iterable tracking
+- `subscription-success.js` - Post-checkout tracking
+- `custom-event.js` - Custom event demo page
+- `update-profile.js` - Profile update demo page
 - `vite.config.js` - Build configuration
 
-### To Initialize (After API Key is Provided)
+### Available Functions
 
-Once you provide the API key and approve, you can initialize the SDK by calling:
+The SDK exports these functions from `iterable-config.js`:
 
 ```javascript
-import { approveIterableInitialization } from './iterable-config.js';
-
-// Approve and initialize with your API key
-approveIterableInitialization();
+import { 
+  initializeIterable,    // Initialize SDK with user email
+  trackEvent,            // Track custom events
+  updateUser,            // Update user profile
+  updateSubscription,    // Update subscription preferences
+  resetIterable,         // Logout/reset SDK
+  isIterableInitialized  // Check if SDK is ready
+} from './iterable-config.js';
 ```
 
 ### Important Notes
 
-- **No data will be sent to Iterable until explicitly initialized**
+- SDK initializes when user signs in (email required)
 - All Iterable SDK calls are wrapped in safety checks
-- The SDK instance is only created after `approveIterableInitialization()` is called
 - Logout properly resets the SDK state
 
 ## Development
@@ -127,11 +134,24 @@ approveIterableInitialization();
 
 ### Project Structure
 
-- `index.html` - Main landing page
-- `data-capture.html`, `personalisation.html`, `automation.html`, `analytics.html` - Feature pages
-- `styles.css` - Stylesheet with modular CSS variables
+**HTML Pages:**
+- `index.html` - Main landing page with plan selection
+- `checkout.html` - Checkout flow for subscriptions
+- `subscription-success.html` - Post-checkout confirmation
+- `how-it-works.html` - How the service works
+- `custom-event.html` - Custom event tracking demo
+- `update-profile.html` - Profile update demo
+- `data-capture.html` - Data capture demo
+- `personalisation.html`, `automation.html`, `analytics.html` - Feature pages
+
+**JavaScript:**
 - `script.js` - Main JavaScript and interactivity
 - `iterable-config.js` - Iterable Web SDK configuration
+- `checkout.js`, `subscription-success.js`, `custom-event.js`, `update-profile.js` - Page-specific logic
+
+**Config:**
+- `styles.css` - Stylesheet with modular CSS variables
+- `vite.config.js` - Build configuration
 - `.env.local` - Environment variables (not in git)
 
 ### Troubleshooting
@@ -156,7 +176,7 @@ approveIterableInitialization();
 
 ### Production URL
 
-The site is deployed at: `iterabledemoanz.netlify.app`
+The site is deployed at: https://mfb-iterable-demo.netlify.app
 
 ### Automatic Deployment
 

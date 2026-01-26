@@ -1,17 +1,19 @@
 # MyFoodBag Demo Website
 
-A landing page for demonstrations showcasing Iterable marketing automation capabilities.
+A demo website showcasing Iterable marketing automation capabilities including user tracking, custom events, and profile management.
 
-## ⚠️ Current Status
+## Live Site
 
-**The Iterable Web SDK is currently DISABLED** until the website is re-skinned for the client.
+**Production URL:** https://mfb-iterable-demo.netlify.app
 
-To re-enable the SDK:
-1. Open `iterable-config.js`
-2. Set `SDK_ENABLED = true`
-3. Uncomment the SDK imports at the top of the file
-4. Add your API key to `.env.local` as `VITE_ITERABLE_API_KEY=your_key_here`
-5. Run `npm install` to ensure dependencies are installed
+## Iterable SDK Status
+
+The Iterable Web SDK is **ENABLED** and configured to track:
+- User sign-ins and profile updates
+- Custom events (checkout, subscriptions, etc.)
+- Subscription preferences
+
+The SDK is configured in `iterable-config.js` with `SDK_ENABLED = true`.
 
 ## Getting Started
 
@@ -32,7 +34,7 @@ To re-enable the SDK:
    npm install
    ```
 
-3. **Set up environment variables (when SDK is re-enabled)**
+3. **Set up environment variables**
    
    Create a `.env.local` file in the project root:
    ```bash
@@ -58,10 +60,30 @@ To re-enable the SDK:
 
 ### Project Structure
 
-- `index.html` - Main HTML file
-- `styles.css` - Stylesheet with modular CSS variables
+**HTML Pages:**
+- `index.html` - Main landing page with plan selection
+- `checkout.html` - Checkout flow for subscriptions
+- `subscription-success.html` - Post-checkout confirmation
+- `how-it-works.html` - How the service works
+- `custom-event.html` - Custom event tracking demo
+- `update-profile.html` - Profile update demo
+- `data-capture.html` - Data capture demo
+- `personalisation.html` - Personalisation features
+- `automation.html` - Automation features
+- `analytics.html` - Analytics features
+
+**JavaScript:**
 - `script.js` - Main JavaScript and interactivity
 - `iterable-config.js` - Iterable Web SDK configuration
+- `checkout.js` - Checkout page logic
+- `subscription-success.js` - Subscription success page logic
+- `custom-event.js` - Custom event page logic
+- `update-profile.js` - Profile update page logic
+
+**Config & Styles:**
+- `styles.css` - Stylesheet with modular CSS variables
+- `vite.config.js` - Vite build configuration
+- `netlify.toml` - Netlify deployment config
 - `.env.local` - Environment variables (not in git)
 
 ## Deployment
@@ -76,14 +98,20 @@ This site is configured to deploy automatically to Netlify when changes are push
 
 ### Production URL
 
-The site is deployed at: `iterabledemoanz.netlify.app`
+The site is deployed at: https://mfb-iterable-demo.netlify.app
 
 ## Iterable Integration
 
-The project uses the Iterable Web SDK for marketing automation. The SDK is configured but will not send data until explicitly approved.
+The project uses the Iterable Web SDK (`@iterable/web-sdk`) for marketing automation. Features include:
+
+- **User Tracking:** Automatically tracks user sign-ins and sets user identity
+- **Profile Updates:** Updates user profiles with checkout and preference data
+- **Custom Events:** Tracks custom events like purchases and subscriptions
+- **Subscription Management:** Manages email/channel subscription preferences
 
 For more details, see:
 - `SETUP.md` - Complete setup, configuration, and deployment guide
+- `iterable-config.js` - SDK configuration and available functions
 
 ## Security Notes
 
