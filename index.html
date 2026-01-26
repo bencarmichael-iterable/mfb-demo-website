@@ -82,13 +82,18 @@
               </div>
             </div>
             <button class="btn btn-login" id="loginBtn">Log in</button>
-            <div class="user-menu" id="userMenu" style="display: none">
-              <div class="user-menu-info">
-                <span class="user-menu-email" id="userMenuEmail">user@example.com</span>
-              </div>
-              <button class="btn btn-outline btn-small" id="headerLogoutBtn">
-                Sign Out
+            <div class="user-dropdown" id="userDropdown" style="display: none">
+              <button class="btn btn-login logged-in" id="userGreetingBtn">
+                <span id="userGreeting">Hi, Ben</span>
+                <span class="dropdown-chevron">▼</span>
               </button>
+              <div class="user-dropdown-menu" id="userDropdownMenu">
+                <a href="#" class="dropdown-item">My Account</a>
+                <a href="#" class="dropdown-item">Order History</a>
+                <a href="#" class="dropdown-item">Settings</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item" id="headerLogoutBtn">Sign Out</a>
+              </div>
             </div>
           </nav>
         </div>
@@ -215,8 +220,8 @@
               <div class="price-row">
                 <span class="price-label">Per Plate</span>
                 <div class="price-values">
-                  <span class="price-current" id="platePrice">$5.75</span>
-                  <span class="price-original" id="plateOriginal">$11.50</span>
+                  <span class="price-current" id="platePrice">$8.85</span>
+                  <span class="price-original" id="plateOriginal">$17.70</span>
                 </div>
               </div>
             </div>
@@ -484,6 +489,40 @@
       </div>
     </div>
 
+    <!-- Inline script to update login button immediately -->
+    <script>
+        (function() {
+            function updateLoginButton() {
+                const email = localStorage.getItem('iterable_user_email');
+                const firstName = localStorage.getItem('iterable_user_firstName');
+                const loginBtn = document.getElementById('loginBtn');
+                const userDropdown = document.getElementById('userDropdown');
+                const userGreeting = document.getElementById('userGreeting');
+                
+                if (email && firstName) {
+                    if (loginBtn) loginBtn.style.display = 'none';
+                    if (userDropdown) userDropdown.style.display = 'block';
+                    if (userGreeting) userGreeting.textContent = 'Hi, ' + firstName;
+                } else {
+                    if (loginBtn) loginBtn.style.display = 'block';
+                    if (userDropdown) userDropdown.style.display = 'none';
+                }
+            }
+            
+            // Try multiple times to catch the elements
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(updateLoginButton, 10);
+                    setTimeout(updateLoginButton, 100);
+                    setTimeout(updateLoginButton, 300);
+                });
+            } else {
+                setTimeout(updateLoginButton, 10);
+                setTimeout(updateLoginButton, 100);
+                setTimeout(updateLoginButton, 300);
+            }
+        })();
+    </script>
     <script type="module" src="script.js"></script>
   </body>
 </html>
