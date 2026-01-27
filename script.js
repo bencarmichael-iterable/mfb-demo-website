@@ -602,7 +602,28 @@ if (logoutBtn) {
 }
 
 if (headerLogoutBtn) {
-    headerLogoutBtn.addEventListener('click', handleLogout);
+    headerLogoutBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        handleLogout();
+    });
+}
+
+// User dropdown toggle functionality
+const userGreetingBtn = document.getElementById('userGreetingBtn');
+const userDropdownEl = document.getElementById('userDropdown');
+
+if (userGreetingBtn && userDropdownEl) {
+    userGreetingBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        userDropdownEl.classList.toggle('active');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('#userDropdown')) {
+            userDropdownEl.classList.remove('active');
+        }
+    });
 }
 
 // Sign Up form submission - Create user, update profile, track event, then auto sign in
